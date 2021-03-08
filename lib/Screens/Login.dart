@@ -183,6 +183,7 @@ class _LoginState extends State<Login> {
 
   String phoneNumber = "";
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  var container = Container();
 
   @override
   void initState() {
@@ -321,6 +322,7 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: 0,
             ),
+            container,
             Container(
               margin:
                   const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
@@ -659,7 +661,7 @@ class _LoginState extends State<Login> {
                   autovalidate: _autoValidate,
                   validator: _userNameValidator,
                   controller: _userNameController,
-                  //  enabled: !lreadonlyForm,
+                  //  enabled: !lreadonlyForm,y
                   style: TextStyle(color: Colors.pink[900], fontSize: 20),
                   decoration: InputDecoration(
                       labelText: "Enter User Name",

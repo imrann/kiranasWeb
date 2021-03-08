@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kiranas_web/Screens/Login.dart';
 import 'package:kiranas_web/Screens/Home.dart';
 import 'package:kiranas_web/Screens/Orders.dart';
@@ -7,6 +9,8 @@ import 'package:kiranas_web/Screens/Maintainance.dart';
 import 'package:kiranas_web/Screens/Cart.dart';
 import 'package:kiranas_web/Screens/CheckOut.dart';
 
+import '../main.dart';
+
 class RouterGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
@@ -14,45 +18,150 @@ class RouterGenerator {
 
     switch (settings.name) {
       case '/Login':
-        return MaterialPageRoute(builder: (cotext) => Login());
-
+        {
+          return MaterialPageRoute(settings: settings, builder: (_) => Login());
+          // MaterialPageRoute<dynamic> pageRoute;
+          // if (!isUserLoggedIn) {
+          //   pageRoute =
+          //       MaterialPageRoute(settings: settings, builder: (_) => Login());
+          // } else {
+          //   pageRoute = MaterialPageRoute(builder: (_) {
+          //     return Scaffold(
+          //       appBar: AppBar(
+          //         title: Text('Already Logged In'),
+          //       ),
+          //       body: Center(
+          //         child: Text('Please Logout first'),
+          //       ),
+          //     );
+          //   });
+          // }
+          // return pageRoute;
+        }
       case '/Home':
-        final Home args = settings.arguments;
+        {
+          final Home args = settings.arguments;
+          MaterialPageRoute<dynamic> pageRoute;
 
-        return MaterialPageRoute(
-          builder: (cotext) => Home(
-            phone: args.phone,
-            user: args.user,
-            userID: args.userID,
-          ),
-        );
+          if (isUserLoggedIn && args != null) {
+            pageRoute = MaterialPageRoute(
+              settings: settings,
+              builder: (_) => Home(
+                phone: args.phone,
+                user: args.user,
+                userID: args.userID,
+              ),
+            );
+          } else if (isUserLoggedIn && args == null) {
+            pageRoute = _unAuthRoute();
+          } else {
+            userLoggedOutToast();
+            SystemNavigator.routeUpdated(
+                routeName: '/Login', previousRouteName: null);
+            pageRoute = MaterialPageRoute(builder: (_) => Login());
+          }
+          return pageRoute;
+        }
 
+      // case '/':
+      //   final Home args = settings.arguments;
+
+      //   return MaterialPageRoute(
+      //     builder: (_) => Home(
+      //       phone: args.phone,
+      //       user: args.user,
+      //       userID: args.userID,
+      //     ),
+      //   );
       case '/Orders':
-        final Orders args = settings.arguments;
+        {
+          final Orders args = settings.arguments;
+          print(args.toString());
+          MaterialPageRoute<dynamic> pageRoute;
 
-        return MaterialPageRoute(
-          builder: (cotext) => Orders(initialTabIndex: args.initialTabIndex),
-        );
+          if (isUserLoggedIn && args != null) {
+            pageRoute = MaterialPageRoute(
+              settings: settings,
+              builder: (_) => Orders(initialTabIndex: args.initialTabIndex),
+            );
+          } else if (isUserLoggedIn && args == null) {
+            pageRoute = _unAuthRoute();
+          } else {
+            userLoggedOutToast();
+            SystemNavigator.routeUpdated(
+                routeName: '/Login', previousRouteName: null);
+            pageRoute = MaterialPageRoute(builder: (_) => Login());
+          }
+          return pageRoute;
+        }
       case '/Cart':
-        return MaterialPageRoute(
-          builder: (cotext) => Cart(),
-        );
+        MaterialPageRoute<dynamic> pageRoute;
+
+        if (isUserLoggedIn) {
+          pageRoute = MaterialPageRoute(
+            settings: settings,
+            builder: (_) => Cart(),
+          );
+        } else {
+          userLoggedOutToast();
+          SystemNavigator.routeUpdated(
+              routeName: '/Login', previousRouteName: null);
+          pageRoute = MaterialPageRoute(builder: (_) => Login());
+        }
+        return pageRoute;
 
       case '/Maintainance':
-        return MaterialPageRoute(
-          builder: (cotext) => Maintainance(),
-        );
+        MaterialPageRoute<dynamic> pageRoute;
+
+        if (isUserLoggedIn) {
+          pageRoute = MaterialPageRoute(
+            settings: settings,
+            builder: (_) => Maintainance(),
+          );
+        } else {
+          userLoggedOutToast();
+          SystemNavigator.routeUpdated(
+              routeName: '/Login', previousRouteName: null);
+          pageRoute = MaterialPageRoute(builder: (_) => Login());
+        }
+        return pageRoute;
+
       case '/CheckOut':
-        return MaterialPageRoute(
-          builder: (cotext) => CheckOut(),
-        );
+        MaterialPageRoute<dynamic> pageRoute;
+
+        if (isUserLoggedIn) {
+          pageRoute = MaterialPageRoute(
+            settings: settings,
+            builder: (_) => CheckOut(),
+          );
+        } else {
+          userLoggedOutToast();
+          SystemNavigator.routeUpdated(
+              routeName: '/Login', previousRouteName: null);
+          pageRoute = MaterialPageRoute(builder: (_) => Login());
+        }
+        return pageRoute;
+
       case '/ProductDetails':
         final ProductDetails args = settings.arguments;
 
-        return MaterialPageRoute(
-          builder: (cotext) => ProductDetails(
-              heroIndex: args.heroIndex, productDetails: args.productDetails),
-        );
+        MaterialPageRoute<dynamic> pageRoute;
+
+        if (isUserLoggedIn && args != null) {
+          pageRoute = MaterialPageRoute(
+            settings: settings,
+            builder: (_) => ProductDetails(
+                heroIndex: args.heroIndex, productDetails: args.productDetails),
+          );
+        } else if (isUserLoggedIn && args == null) {
+          pageRoute = _unAuthRoute();
+        } else {
+          userLoggedOutToast();
+          SystemNavigator.routeUpdated(
+              routeName: '/Login', previousRouteName: null);
+          pageRoute = MaterialPageRoute(builder: (_) => Login());
+        }
+        return pageRoute;
 
       default:
         // If there is no such named route in the switch statement, e.g. /third
@@ -67,9 +176,30 @@ class RouterGenerator {
           title: Text('Error'),
         ),
         body: Center(
-          child: Text('ERROR'),
+          child: Text('Unknown Route'),
         ),
       );
     });
   }
+
+  static Route<dynamic> _unAuthRoute() {
+    return MaterialPageRoute(builder: (_) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Unautorize'),
+        ),
+        body: Center(
+          child: Text('Unauthorize path, cannot navigate through url'),
+        ),
+      );
+    });
+  }
+}
+
+userLoggedOutToast() {
+  Fluttertoast.showToast(
+    msg: "Please login first !",
+    fontSize: 20,
+    backgroundColor: Colors.black,
+  );
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kiranas_web/Controllers/OrderController.dart';
 import 'package:kiranas_web/CustomWidgets/LIne.dart';
+import 'package:kiranas_web/Screens/Home.dart';
 import 'package:kiranas_web/Screens/Orders.dart';
 import 'package:kiranas_web/StateManager/CartState.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -236,10 +237,11 @@ class _PaymentState extends State<Payment> {
                       style: TextStyle(color: Colors.grey[400])),
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/Home',
-                      ModalRoute.withName('/Home'),
-                    );
+                        context, '/Home', ModalRoute.withName('/Home'),
+                        arguments: Home(
+                          user: "",
+                          phone: "",
+                        ));
                     // Navigator.pushReplacement(
                     //     context,
                     //     new MaterialPageRoute(

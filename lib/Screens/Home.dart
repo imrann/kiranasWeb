@@ -363,7 +363,7 @@ class _HomeState extends State<Home> {
                                                                     index]
                                                                 .productData
                                                                 .productMrp) -
-                                                            ((productList[0]
+                                                            ((productList[index]
                                                                         .productData
                                                                         .productOffPercentage /
                                                                     100) *
@@ -495,11 +495,10 @@ class _HomeState extends State<Home> {
     if (sIndex == 1) {
       return FlatButton(
           onPressed: () {
-           
-             Navigator.pushNamed(context, '/Orders',
-            arguments: Orders(
-              initialTabIndex: "0",
-            ));
+            Navigator.pushNamed(context, '/Orders',
+                arguments: Orders(
+                  initialTabIndex: "0",
+                ));
             // Navigator.push(
             //     context,
             //     SlideRightRoute(

@@ -100,7 +100,7 @@ class _CancelledOrdersState extends State<CancelledOrders> {
     isPaginationActive = false;
     isMoreOrdersAvailable = true;
     isGetMoreOrders = true;
-    fab = FloatingActionButtonLocation.endFloat;
+    fab = FloatingActionButtonLocation.miniCenterFloat;
 
     super.initState();
 

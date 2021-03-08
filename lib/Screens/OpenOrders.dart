@@ -104,7 +104,7 @@ class _OpenOrdersState extends State<OpenOrders> {
     isPaginationActive = false;
     isMoreOrdersAvailable = true;
     isGetMoreOrders = true;
-    fab = FloatingActionButtonLocation.endFloat;
+    fab = FloatingActionButtonLocation.miniCenterFloat;
 
     // TODO: implement initState
     super.initState();

@@ -1,7 +1,12 @@
 //import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kiranas_web/CommonScreens/Unauthorize.dart';
 import 'package:kiranas_web/Screens/Cart.dart';
 import 'package:kiranas_web/Screens/CheckOut.dart';
 import 'package:kiranas_web/Screens/Orders.dart';
@@ -17,28 +22,35 @@ import 'package:kiranas_web/Screens/Login.dart';
 import 'package:kiranas_web/Screens/Maintainance.dart';
 import 'package:kiranas_web/Screens/Splash.dart';
 import 'package:kiranas_web/CommonScreens/RouterGenerator.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 import 'SharedPref/UserDetailsSP.dart';
 import 'StateManager/CancelledOrderState.dart';
 import 'StateManager/DeliveredOrderState.dart';
 import 'StateManager/OpenOrderState.dart';
 
-void main() {
+bool isUserLoggedIn;
+Future<void> main() async {
+  //setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // transparent status bar
   ));
+  await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
 
   var currentLoggedUser;
   FirebaseAuth auth = FirebaseAuth.instance;
   print(auth.currentUser.toString());
+
   auth.authStateChanges().listen((User user) {
     if (user == null) {
       print('User is currently signed out!');
       currentLoggedUser = null;
+      isUserLoggedIn = false;
     } else {
       print('User is signed in!');
       currentLoggedUser = user;
+      isUserLoggedIn = true;
     }
   });
 
@@ -109,28 +121,134 @@ class MyApp extends StatelessWidget {
             primarySwatch: colorCustom,
             accentColor: colorCustom1,
           ),
-          routes: {
-            '/Home': (context) => Home(),
-            '/Login': (context) => Login(),
-            //'/Orders': (context) => Orders(),
-            '/Cart': (context) => Cart(),
-            '/Maintainance': (context) => Maintainance(),
-            '/CheckOut': (context) => CheckOut(),
-            //'/ProductDetails': (context) => ProductDetails(),
+          // routes: {
+          //   '/Home': (context) {
+          //     final Home args = ModalRoute.of(context).settings.arguments;
+          //     print("USERLOGGED H :" + isUserLoggedIn.toString());
 
-            '/ProductDetails': (context) {
-              final ProductDetails args =
-                  ModalRoute.of(context).settings.arguments;
-              return ProductDetails(
-                heroIndex: args.heroIndex,
-                productDetails: args.productDetails,
-              );
-            }
+          //     if (isUserLoggedIn && args != null) {
+          //       return Home(
+          //         phone: args.phone,
+          //         user: args.user,
+          //         userID: args.userID,
+          //       );
+          //     } else if (isUserLoggedIn && args == null) {
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Unauthorize', previousRouteName: null);
+          //       return Unauthorize();
+          //     } else {
+          //       userLoggedOutToast();
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Login', previousRouteName: null);
+          //       return Login();
+          //     }
+          //   },
+          //   '/Orders': (context) {
+          //     print("USERLOGGED O:" + isUserLoggedIn.toString());
+          //     final Orders args = ModalRoute.of(context).settings.arguments;
+          //     if (isUserLoggedIn && args != null) {
+          //       return Orders(initialTabIndex: args.initialTabIndex);
+          //     } else if (isUserLoggedIn && args == null) {
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Unauthorize', previousRouteName: null);
+          //       return Unauthorize();
+          //     } else {
+          //       userLoggedOutToast();
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Login', previousRouteName: null);
+          //       return Login();
+          //     }
+          //   },
+          //   '/Login': (context) {
+          //     final Login args = ModalRoute.of(context).settings.arguments;
+          //     if (isUserLoggedIn && args != null) {
+          //       return Login();
+          //     } else if (isUserLoggedIn && args == null) {
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Unauthorize', previousRouteName: null);
+          //       return Unauthorize();
+          //     } else {
+          //       userLoggedOutToast();
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Login', previousRouteName: null);
+          //       return Login();
+          //     }
+          //   },
+          //   //'/Orders': (context) => Orders(),
+          //   '/Cart': (context) {
+          //     if (isUserLoggedIn) {
+          //       return Cart();
+          //     } else {
+          //       userLoggedOutToast();
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Login', previousRouteName: null);
+          //       return Login();
+          //     }
+          //   },
+          //   '/Unauthorize': (context) {
+          //     if (isUserLoggedIn) {
+          //       return Unauthorize();
+          //     } else {
+          //       userLoggedOutToast();
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Login', previousRouteName: null);
+          //       return Login();
+          //     }
+          //   },
+          //   '/Maintainance': (context) {
+          //     if (isUserLoggedIn) {
+          //       return Maintainance();
+          //     } else {
+          //       userLoggedOutToast();
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Login', previousRouteName: null);
+          //       return Login();
+          //     }
+          //   },
+          //   '/CheckOut': (context) {
+          //     if (isUserLoggedIn) {
+          //       return CheckOut();
+          //     } else {
+          //       userLoggedOutToast();
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Login', previousRouteName: null);
+          //       return Login();
+          //     }
+          //   },
+          //   //'/ProductDetails': (context) => ProductDetails(),
+          //   '/ProductDetails': (context) {
+          //     final ProductDetails args =
+          //         ModalRoute.of(context).settings.arguments;
+          //     if (isUserLoggedIn && args != null) {
+          //       return ProductDetails(
+          //         heroIndex: args.heroIndex,
+          //         productDetails: args.productDetails,
+          //       );
+          //     } else if (isUserLoggedIn && args == null) {
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Unauthorize', previousRouteName: null);
+          //       return Unauthorize();
+          //     } else {
+          //       userLoggedOutToast();
+          //       SystemNavigator.routeUpdated(
+          //           routeName: '/Login', previousRouteName: null);
+          //       return Login();
+          //     }
+          //   }
 
-            //  heroIndex: args.heroIndex, productDetails: args.productDetails
-          },
+          //   //  heroIndex: args.heroIndex, productDetails: args.productDetails
+          // },
+
           home: _getStartupScreens(redirect, context),
         ));
+  }
+
+  unAuthRouteToast() {
+    Fluttertoast.showToast(
+      msg: "unauthorize path !",
+      fontSize: 20,
+      backgroundColor: Colors.black,
+    );
   }
 
   Widget _getStartupScreens(String redirectPage, BuildContext context) {
