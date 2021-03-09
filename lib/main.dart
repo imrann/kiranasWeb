@@ -14,6 +14,7 @@ import 'package:kiranas_web/Screens/ProductDetails.dart';
 import 'package:kiranas_web/StateManager/CartState.dart';
 import 'package:kiranas_web/StateManager/CheckoutState.dart';
 import 'package:kiranas_web/StateManager/FilterListState.dart';
+import 'package:kiranas_web/StateManager/HomeDynamicPage.dart';
 import 'package:kiranas_web/StateManager/OrdersListState.dart';
 import 'package:kiranas_web/StateManager/ProductListState.dart';
 import 'package:provider/provider.dart';
@@ -112,6 +113,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => DeliveredOrderState()),
           ChangeNotifierProvider(create: (context) => OpenOrderState()),
           ChangeNotifierProvider(create: (context) => CancelledOrderState()),
+          ChangeNotifierProvider(create: (context) => HomeDynamicPageState()),
         ],
         child: MaterialApp(
           onGenerateRoute: RouterGenerator.generateRoute,

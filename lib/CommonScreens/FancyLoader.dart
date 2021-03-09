@@ -9,15 +9,11 @@ class FancyLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[200],
-      period: Duration(milliseconds: 500),
-      highlightColor: Colors.white,
-      child: getLoaderType(loaderType: loaderType, lines: lines),
-    );
+    return getLoaderType(
+        loaderType: loaderType, lines: lines, context: context);
   }
 
-  Widget getLoaderType({String loaderType, int lines}) {
+  Widget getLoaderType({String loaderType, int lines, BuildContext context}) {
     switch (loaderType) {
       case "list":
         {
@@ -38,7 +34,7 @@ class FancyLoader extends StatelessWidget {
         break;
       case "Grid":
         {
-          return getGridLoader();
+          return getGridLoader(context: context);
         }
         break;
 
@@ -117,10 +113,19 @@ class FancyLoader extends StatelessWidget {
     );
   }
 
-  Widget getGridLoader() {
+  Widget getGridLoader({BuildContext context}) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, childAspectRatio: 0.7),
+          crossAxisCount: ((MediaQuery.of(context).size.width >= 450.0) &&
+                  (MediaQuery.of(context).size.width <= 900.0))
+              ? 3
+              : ((MediaQuery.of(context).size.width > 900.0) &&
+                      (MediaQuery.of(context).size.width <= 1250.0))
+                  ? 4
+                  : (MediaQuery.of(context).size.width > 1250.0)
+                      ? 6
+                      : 2,
+          childAspectRatio: 0.7),
       itemCount: 8,
       itemBuilder: (context, index) {
         return Container(

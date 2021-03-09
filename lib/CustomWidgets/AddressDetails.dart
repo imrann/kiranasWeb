@@ -87,7 +87,7 @@ class _AddressDetailsState extends State<AddressDetails> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.7,
+                  width: MediaQuery.of(context).size.width * 0.6,
                   height: 50,
                   color: Colors.transparent,
                   child: Center(
@@ -105,17 +105,19 @@ class _AddressDetailsState extends State<AddressDetails> {
                               color: Colors.green,
                             ),
                           ),
-                          SizedBox(
-                              height: 3,
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: Container(
-                                color: Colors.grey[400],
-                                child: widget.tabController.previousIndex == 1
-                                    ? Line(
-                                        isbackward: true,
-                                      )
-                                    : null,
-                              )),
+                          Expanded(
+                            child: SizedBox(
+                                height: 3,
+                                // width: MediaQuery.of(context).size.width * 0.6,
+                                child: Container(
+                                  color: Colors.grey[400],
+                                  child: widget.tabController.previousIndex == 1
+                                      ? Line(
+                                          isbackward: true,
+                                        )
+                                      : null,
+                                )),
+                          ),
                           ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(50)),
                             child: Container(
@@ -152,7 +154,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width - 20,
+                        width: MediaQuery.of(context).size.width * 0.6,
                         child: Column(
                           children: [getAddress()],
                         ),

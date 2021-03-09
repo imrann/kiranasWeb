@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kiranas_web/Controllers/OrderController.dart';
 import 'package:kiranas_web/CustomWidgets/LIne.dart';
+import 'package:kiranas_web/Screens/DrawerNav.dart';
 import 'package:kiranas_web/Screens/Home.dart';
 import 'package:kiranas_web/Screens/Orders.dart';
 import 'package:kiranas_web/StateManager/CartState.dart';
+import 'package:kiranas_web/StateManager/HomeDynamicPage.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +47,7 @@ class _PaymentState extends State<Payment> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.6,
                 height: 50,
                 color: Colors.transparent,
                 child: Center(
@@ -62,13 +65,14 @@ class _PaymentState extends State<Payment> {
                             color: Colors.green,
                           ),
                         ),
-                        SizedBox(
-                            height: 3,
-                            width: MediaQuery.of(context).size.width * 0.6,
-                            child: Container(
-                              color: Colors.grey[400],
-                              child: Line(),
-                            )),
+                        Expanded(
+                          child: SizedBox(
+                              height: 3,
+                              child: Container(
+                                color: Colors.grey[400],
+                                child: Line(),
+                              )),
+                        ),
                         getEndPoint()
                       ],
                     ),
@@ -91,7 +95,7 @@ class _PaymentState extends State<Payment> {
             ],
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.75,
+            // height: MediaQuery.of(context).size.height * 0.75,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -236,12 +240,24 @@ class _PaymentState extends State<Payment> {
                   child: Text('CONTINUE',
                       style: TextStyle(color: Colors.grey[400])),
                   onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/Home', ModalRoute.withName('/Home'),
-                        arguments: Home(
-                          user: "",
-                          phone: "",
-                        ));
+                    var homeDYnamicPageState =
+                        Provider.of<HomeDynamicPageState>(context,
+                            listen: false);
+                    // Navigator.popUntil(context, (route) => route.isFirst);
+                    if (MediaQuery.of(context).size.width > 800.0) {
+                      homeDYnamicPageState.setActiveHomePage("home");
+                      SystemNavigator.routeUpdated(
+                          routeName: '/Home', previousRouteName: null);
+                      Navigator.of(context).pop();
+                    } else {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/Home', ModalRoute.withName('/Home'),
+                          arguments: Home(
+                            user: "",
+                            phone: "",
+                          ));
+                    }
+
                     // Navigator.pushReplacement(
                     //     context,
                     //     new MaterialPageRoute(
@@ -258,13 +274,24 @@ class _PaymentState extends State<Payment> {
                   child: Text('GO TO ORDERS',
                       style: TextStyle(color: Colors.grey[400])),
                   onPressed: () {
+                    var homeDYnamicPageState =
+                        Provider.of<HomeDynamicPageState>(context,
+                            listen: false);
                     // Navigator.popUntil(context, (route) => route.isFirst);
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/Orders',
-                      ModalRoute.withName('/Home'),
-                      arguments: Orders(initialTabIndex: "0"),
-                    );
+                    if (MediaQuery.of(context).size.width > 800.0) {
+                      homeDYnamicPageState.setActiveHomePage("orders");
+                      SystemNavigator.routeUpdated(
+                          routeName: '/Orders', previousRouteName: null);
+                      Navigator.of(context).pop();
+                    } else {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/Orders',
+                        ModalRoute.withName('/Home'),
+                        arguments: Orders(initialTabIndex: "0"),
+                      );
+                    }
+
                     // Navigator.pushReplacement(
                     //     context,
                     //     new MaterialPageRoute(

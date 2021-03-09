@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kiranas_web/CommonScreens/AppBarCommon.dart';
 import 'package:kiranas_web/CommonScreens/FancyLoader.dart';
 import 'package:kiranas_web/StateManager/CartState.dart';
+import 'package:kiranas_web/StateManager/HomeDynamicPage.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -99,7 +101,17 @@ class _CartState extends State<Cart> {
               onPressed: cartState.getGrandTotal <= 0
                   ? null
                   : () {
-                      Navigator.pushNamed(context, '/CheckOut');
+                      if (MediaQuery.of(context).size.width > 800) {
+                        var homeDYnamicPageState =
+                            Provider.of<HomeDynamicPageState>(context,
+                                listen: false);
+                        homeDYnamicPageState.setActiveHomePage("checkout");
+                        SystemNavigator.routeUpdated(
+                            routeName: '/CheckOut', previousRouteName: null);
+                      } else {
+                        Navigator.pushNamed(context, '/CheckOut');
+                      }
+
                       // Navigator.push(
                       //     context,
                       //     SlideRightRoute(

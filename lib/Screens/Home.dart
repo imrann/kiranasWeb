@@ -1,16 +1,20 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:kiranas_web/CommonScreens/ErrorPage.dart';
 import 'package:kiranas_web/CommonScreens/FancyLoader.dart';
 import 'package:kiranas_web/Controllers/ProductController.dart';
 import 'package:kiranas_web/Podo/Product.dart';
+import 'package:kiranas_web/Screens/Cart.dart';
+import 'package:kiranas_web/Screens/CheckOut.dart';
 import 'package:kiranas_web/Screens/Orders.dart';
 import 'package:kiranas_web/Screens/ProductDetails.dart';
 import 'package:kiranas_web/CommonScreens/AppBarCommon.dart';
 
 import 'package:flutter/material.dart';
 import 'package:kiranas_web/StateManager/CartState.dart';
+import 'package:kiranas_web/StateManager/HomeDynamicPage.dart';
 import 'package:kiranas_web/StateManager/ProductListState.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
@@ -178,11 +182,31 @@ class _HomeState extends State<Home> {
                             children: [
                               Container(
                                 height: MediaQuery.of(context).size.height,
-                                child: productListUI(),
+                                child: Consumer<HomeDynamicPageState>(
+                                    builder: (context, data, child) {
+                                  if (data.getActiveHomePage() == "orders") {
+                                    return Orders(
+                                      initialTabIndex: "0",
+                                    );
+                                  } else if (data.getActiveHomePage() ==
+                                      "cart") {
+                                    return Cart();
+                                  } else if (data.getActiveHomePage() ==
+                                      "checkout") {
+                                    return CheckOut();
+                                  } else if (data.getActiveHomePage() ==
+                                      "productDetails") {
+                                    return ProductDetails(
+                                      productDetails: data.getProductDetails(),
+                                    );
+                                  } else {
+                                    return productListUI();
+                                  }
+                                }),
                               )
                             ],
                           ),
-                        )
+                        ),
                       ],
                     )
                   : productListUI(),
@@ -281,11 +305,25 @@ class _HomeState extends State<Home> {
                       return InkWell(
                         splashColor: Colors.white,
                         onTap: () {
-                          Navigator.pushNamed(context, '/ProductDetails',
-                              arguments: ProductDetails(
-                                productDetails: productList[index],
-                                heroIndex: "productDetails$index",
-                              ));
+                          if (MediaQuery.of(context).size.width > 800.0) {
+                            var homeDYnamicPageState =
+                                Provider.of<HomeDynamicPageState>(context,
+                                    listen: false);
+                            SystemNavigator.routeUpdated(
+                                routeName: '/ProductDetails',
+                                previousRouteName: null);
+                            homeDYnamicPageState
+                                .setActiveHomePage("productDetails");
+                            homeDYnamicPageState
+                                .setProductDetails(productList[index]);
+                          } else {
+                            Navigator.pushNamed(context, '/ProductDetails',
+                                arguments: ProductDetails(
+                                  productDetails: productList[index],
+                                  heroIndex: "productDetails$index",
+                                ));
+                          }
+
                           // Navigator.push(
                           //     context,
                           //     SlideRightRoute(

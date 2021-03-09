@@ -210,20 +210,17 @@ class _ProductDetailsState extends State<ProductDetails> {
       // physics: ScrollPhysics(),
       // shrinkWrap: true,
       children: [
-        Hero(
-          tag: widget.heroIndex,
-          child: ClipRRect(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(20),
-            ),
-            child: FadeInImage.memoryNetwork(
-              placeholder: kTransparentImage,
-              height: MediaQuery.of(context).size.height * 0.6,
-              fit: BoxFit.fill,
-              width: double.infinity,
-              alignment: Alignment.center,
-              image: widget.productDetails.productData.productUrl,
-            ),
+        ClipRRect(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(250),
+          ),
+          child: FadeInImage.memoryNetwork(
+            placeholder: kTransparentImage,
+            height: MediaQuery.of(context).size.height * 0.6,
+            fit: BoxFit.fitHeight,
+            // width: double.infinity,
+            alignment: Alignment.center,
+            image: widget.productDetails.productData.productUrl,
           ),
         ),
         Padding(
@@ -393,7 +390,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 class MyClipper extends CustomClipper<Rect> {
   @override
   Rect getClip(Size size) {
-    return Rect.fromLTWH(20, -60, 450, 450);
+    return Rect.fromLTWH(20, 20, 450, 450);
   }
 
   @override

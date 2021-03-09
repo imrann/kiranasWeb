@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kiranas_web/Screens/Orders.dart';
 import 'package:kiranas_web/SharedPref/UserDetailsSP.dart';
 import 'package:kiranas_web/StateManager/CartState.dart';
+import 'package:kiranas_web/StateManager/HomeDynamicPage.dart';
 import 'package:provider/provider.dart';
 
 import 'DrawerTiles.dart';
@@ -121,9 +123,6 @@ class _DrawerNavState extends State<DrawerNav> {
               }
             },
           ),
-          onTap: () {
-            Navigator.of(context).pop();
-          },
         ),
         // DrawerTiles(icon: Icon(Icons.payment), title: 'Payent Details'),
         // Divider(thickness: 0.5, endIndent: 5, color: Colors.grey),
@@ -151,49 +150,98 @@ class _DrawerNavState extends State<DrawerNav> {
                 margin: EdgeInsets.only(left: 12.0, right: 12.0),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        getIconButton(0, "Home", Icons.home),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Text(
-                            "Home",
-                            style: TextStyle(fontSize: 16, color: Colors.grey),
-                          ),
-                        )
-                      ],
+                    InkWell(
+                      onTap: () {
+                        updateTabSelection(0, "Home");
+                        var homeDYnamicPageState =
+                            Provider.of<HomeDynamicPageState>(context,
+                                listen: false);
+                        SystemNavigator.routeUpdated(
+                            routeName: '/Home', previousRouteName: null);
+                        homeDYnamicPageState.setActiveHomePage("home");
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          getIconButton(0, "Home", Icons.home),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12),
+                            child: Text(
+                              "Home",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: selectedIndex == 0
+                                    ? Colors.pink[900]
+                                    : Colors.grey[400],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     Divider(thickness: 0.5, endIndent: 5, color: Colors.grey),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Icon(
+                    InkWell(
+                      onTap: () {
+                        updateTabSelection(1, "Orders");
+                        var homeDYnamicPageState =
+                            Provider.of<HomeDynamicPageState>(context,
+                                listen: false);
+                        SystemNavigator.routeUpdated(
+                            routeName: '/Orders', previousRouteName: null);
+                        homeDYnamicPageState.setActiveHomePage("orders");
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          getIconButton(
+                            1,
+                            "Orders",
                             Icons.list_sharp,
-                            color: Colors.grey,
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6),
-                          child: getIconButton(1, "Orders", Icons.archive),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12),
+                            child: Text(
+                              "Orders",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: selectedIndex == 1
+                                    ? Colors.pink[900]
+                                    : Colors.grey[400],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     Divider(thickness: 0.5, endIndent: 5, color: Colors.grey),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        getIconButton(2, "Cart", Icons.shopping_cart),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Text(
-                            "Cart",
-                            style: TextStyle(fontSize: 16, color: Colors.grey),
-                          ),
-                        )
-                      ],
+                    InkWell(
+                      onTap: () {
+                        updateTabSelection(2, "Cart");
+                        var homeDYnamicPageState =
+                            Provider.of<HomeDynamicPageState>(context,
+                                listen: false);
+                        SystemNavigator.routeUpdated(
+                            routeName: '/Cart', previousRouteName: null);
+                        homeDYnamicPageState.setActiveHomePage("cart");
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          getIconButton(2, "Cart", Icons.shopping_cart),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12),
+                            child: Text(
+                              "Cart",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: selectedIndex == 2
+                                    ? Colors.pink[900]
+                                    : Colors.grey[400],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ))
@@ -240,29 +288,14 @@ class _DrawerNavState extends State<DrawerNav> {
 
   Widget getIconButton(int sIndex, String pageName, IconData pageIcon) {
     if (sIndex == 1) {
-      return FlatButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/Orders',
-                arguments: Orders(
-                  initialTabIndex: "0",
-                ));
-            // Navigator.push(
-            //     context,
-            //     SlideRightRoute(
-            //         widget: Orders(
-            //       initialTabIndex: "0",
-            //     )));
-
-            updateTabSelection(0, "Home");
-          },
-          child: Text(
-            "Orders",
-            style: TextStyle(
-              color:
-                  selectedIndex == sIndex ? Colors.pink[900] : Colors.grey[400],
-              fontSize: 16,
-            ),
-          ));
+      return IconButton(
+        icon: Icon(
+          pageIcon,
+          //darken the icon if it is selected or else give it a different color
+          color: selectedIndex == sIndex ? Colors.pink[900] : Colors.grey[400],
+        ),
+        onPressed: () {},
+      );
     } else {
       return IconButton(
         //update the bottom app bar view each time an item is clicked
@@ -276,12 +309,7 @@ class _DrawerNavState extends State<DrawerNav> {
               break;
 
             case "Cart":
-              {
-                updateTabSelection(0, "Home");
-                //  Navigator.push(context, SlideRightRoute(widget: Cart()));
-                Navigator.pushNamed(context, '/Cart');
-                //   Navigator.push(context, SlideRightRoute(widget: Cart()));
-              }
+              {}
               break;
 
             default:

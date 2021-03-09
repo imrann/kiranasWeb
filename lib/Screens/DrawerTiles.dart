@@ -26,7 +26,10 @@ class DrawerTiles extends StatelessWidget {
 
     return ListTile(
         leading: icon,
-        title: Text(title),
+        title: Text(
+          title,
+          style: TextStyle(color: Colors.grey),
+        ),
         onTap: () {
           if (title == "Logout") {
             progressDialogotp.show().then((value) {
