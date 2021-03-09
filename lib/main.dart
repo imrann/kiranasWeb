@@ -245,6 +245,7 @@ class MyApp extends StatelessWidget {
 
   unAuthRouteToast() {
     Fluttertoast.showToast(
+      gravity: ToastGravity.CENTER,
       msg: "unauthorize path !",
       fontSize: 20,
       backgroundColor: Colors.black,

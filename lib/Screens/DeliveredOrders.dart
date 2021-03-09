@@ -84,6 +84,7 @@ class _DeliveredOrdersState extends State<DeliveredOrders> {
             isMoreOrdersAvailable = false;
           });
           Fluttertoast.showToast(
+              gravity: ToastGravity.CENTER,
               msg: "No more orders !!",
               fontSize: 10,
               backgroundColor: Colors.black);

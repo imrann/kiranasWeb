@@ -87,6 +87,7 @@ class _OpenOrdersState extends State<OpenOrders> {
             isMoreOrdersAvailable = false;
           });
           Fluttertoast.showToast(
+              gravity: ToastGravity.CENTER,
               msg: "No more orders !!",
               fontSize: 10,
               backgroundColor: Colors.black);
@@ -546,6 +547,7 @@ class _OpenOrdersState extends State<OpenOrders> {
                                     ordersListState.setOrdersListState(value);
                                     progressDialog.hide().then((value) {
                                       Fluttertoast.showToast(
+                                          gravity: ToastGravity.CENTER,
                                           msg: "Order Cancelled Successfully!!",
                                           fontSize: 10,
                                           backgroundColor: Colors.black);
@@ -555,6 +557,7 @@ class _OpenOrdersState extends State<OpenOrders> {
                               }).catchError((err) {
                                 progressDialog.hide();
                                 Fluttertoast.showToast(
+                                    gravity: ToastGravity.CENTER,
                                     msg:
                                         "Something went wrong! please try later",
                                     fontSize: 10,

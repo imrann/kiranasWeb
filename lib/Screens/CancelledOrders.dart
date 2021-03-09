@@ -83,6 +83,7 @@ class _CancelledOrdersState extends State<CancelledOrders> {
             isMoreOrdersAvailable = false;
           });
           Fluttertoast.showToast(
+              gravity: ToastGravity.CENTER,
               msg: "No more orders !!",
               fontSize: 10,
               backgroundColor: Colors.black);

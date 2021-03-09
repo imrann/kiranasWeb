@@ -52,127 +52,6 @@ class _LoginState extends State<Login> {
         ));
 
     bottomSlider(phoneNumber: _phoneController.text, isOtpSlider: true);
-
-    // _auth.verifyPhoneNumber(
-    //     phoneNumber: phone,
-    //     timeout: Duration(seconds: 60),
-    //     verificationCompleted: (AuthCredential credential) async {
-    //       AuthResult result = await _auth.signInWithCredential(credential);
-    //       result.user.getIdToken().then((token) {
-    //         Fluttertoast.showToast(
-    //             msg: "Login Successfulll",
-    //             fontSize: 10,
-    //             backgroundColor: Colors.black);
-    //         Navigator.of(context).pop();
-    //         if (result.additionalUserInfo.isNewUser) {
-    //           bottomSlider(isOtpSlider: false, userIdToken: token);
-    //         } else {
-    //           progressDialogotp.show().then((isShown) {
-    //             if (isShown) {
-    //               LoginController().getUserByID(token).then((value) async {
-    //                 if (value != null) {
-    //                   if (value['userAddress']['address'].toString().isEmpty ||
-    //                       value['userAddress']['address'].toString() == null ||
-    //                       value['userAddress']['address'].toString().trim() ==
-    //                           "") {
-    //                     await UserDetailsSP().setIsAddressPresent(false);
-    //                   } else {
-    //                     await UserDetailsSP().setIsAddressPresent(true);
-    //                   }
-    //                   progressDialogotp.hide().then((isHidden) {
-    //                     if (isHidden) {
-    //                       Navigator.pushNamedAndRemoveUntil(
-    //                           context, '/Home', ModalRoute.withName('/Home'),
-    //                           arguments: Home(
-    //                             user: value["userName"],
-    //                             phone: value["userPhone"],
-    //                             userID: value["userId"],
-    //                           ));
-    //                       // Navigator.push(
-    //                       //     context,
-    //                       //     MaterialPageRoute(
-    //                       //         builder: (context) => Home(
-    //                       //               user: value["userName"],
-    //                       //               phone: value["userPhone"],
-    //                       //               userID: value["userId"],
-    //                       //             )));
-    //                       Fluttertoast.showToast(
-    //                           msg: "Welcome Back!",
-    //                           fontSize: 10,
-    //                           backgroundColor: Colors.black);
-    //                     }
-    //                   });
-    //                 }
-    //               }).catchError((err) {
-    //                 progressDialogotp.hide();
-    //                 Fluttertoast.showToast(
-    //                     msg: "Something went wrong! please try later",
-    //                     fontSize: 10,
-    //                     backgroundColor: Colors.black);
-    //                 print(err.toString());
-    //               });
-    //             }
-    //           });
-    //         }
-    //       });
-
-    //       // if (user != null) {
-    //       //   UserDetailsSP().loginUser(user, _userNameController.text);
-    //       //   Navigator.of(context).pop();
-    //       //   Navigator.push(
-    //       //       context,
-    //       //       MaterialPageRoute(
-    //       //           builder: (context) => Home(
-    //       //                 user: _userNameController.text,
-    //       //                 phone: "+91" + _phoneController.text,
-    //       //                 userID: user.uid,
-    //       //               )));
-    //       // } else {
-    //       //   print("Error");
-    //       // }
-
-    //       //This callback would gets called when verification is done auto maticlly
-    //     },
-    //     verificationFailed: (AuthException exception) {
-    //       print("failed");
-    //       print(exception.message);
-    //       progressDialogotp.hide().then((isHidden) {
-    //         if (isHidden) {
-    //           scaffoldKey.currentState.showSnackBar(SnackBar(
-    //             content: Text(
-    //               exception.message,
-    //               textAlign: TextAlign.center,
-    //             ),
-    //             duration: Duration(seconds: 5),
-    //           ));
-    //         }
-    //       });
-    //     },
-    //     codeSent: (String verificationId, [int forceResendingToken]) {
-    //       print("verificationId  :" + verificationId);
-    //       progressDialogotp.hide().then((value) {
-    //         if (value) {
-    //           // scaffoldKey.currentState.showSnackBar(SnackBar(
-    //           //   content: Text(
-    //           //     "OTP SENT to : " + _phoneController.text.toString(),
-    //           //     textAlign: TextAlign.center,
-    //           //   ),
-    //           //   duration: Duration(seconds: 5),
-    //           // ));
-    //           bottomSlider(
-    //               phoneNumber: _phoneController.text,
-    //               verificationId: verificationId,
-    //               forceResendingToken: forceResendingToken,
-    //               isOtpSlider: true);
-    //         }
-    //       });
-    //     },
-    //     codeAutoRetrievalTimeout: (String id) {
-    //       // Navigator.of(context).pop();
-    //       setState(() {
-    //         enableResendButton = true;
-    //       });
-    //     });
   }
 
   StreamController<ErrorAnimationType> errorController;
@@ -246,15 +125,24 @@ class _LoginState extends State<Login> {
         textAlign: TextAlign.center);
 
     return Scaffold(
+        backgroundColor: Colors.grey[200],
         key: scaffoldKey,
         body: WillPopScope(
             onWillPop: _onBackPressed,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Center(
-                child: loginformUI(),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.aspectRatio * 600,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                  ),
+                  child: Center(
+                    child: loginformUI(),
+                  ),
+                ),
               ),
             )));
   }
@@ -271,7 +159,7 @@ class _LoginState extends State<Login> {
           reverse: false,
           children: <Widget>[
             SizedBox(
-              height: 400,
+              height: 300,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -447,6 +335,7 @@ class _LoginState extends State<Login> {
                   //             )));
 
                   Fluttertoast.showToast(
+                      gravity: ToastGravity.CENTER,
                       msg: "Welcome!",
                       fontSize: 10,
                       backgroundColor: Colors.black);
@@ -454,6 +343,7 @@ class _LoginState extends State<Login> {
               });
             } else {
               Fluttertoast.showToast(
+                  gravity: ToastGravity.CENTER,
                   msg: "Something went wrong! please try later..",
                   fontSize: 10,
                   backgroundColor: Colors.black);
@@ -462,6 +352,7 @@ class _LoginState extends State<Login> {
           }).catchError((err) {
             progressDialogotp.hide();
             Fluttertoast.showToast(
+                gravity: ToastGravity.CENTER,
                 msg: "Something went wrong! please try later",
                 fontSize: 10,
                 backgroundColor: Colors.black);
@@ -492,6 +383,7 @@ class _LoginState extends State<Login> {
           await confirmationResult.confirm(code).then((userCredential) {
             userCredential.user.getIdTokenResult().then((token) {
               Fluttertoast.showToast(
+                  gravity: ToastGravity.CENTER,
                   msg: "Login Successfull",
                   fontSize: 10,
                   backgroundColor: Colors.black);
@@ -527,6 +419,7 @@ class _LoginState extends State<Login> {
                         //               userID: value["userId"],
                         //             )));
                         Fluttertoast.showToast(
+                            gravity: ToastGravity.CENTER,
                             msg: "Welcome Back!",
                             fontSize: 10,
                             backgroundColor: Colors.black);
@@ -538,6 +431,7 @@ class _LoginState extends State<Login> {
                 }).catchError((err) {
                   progressDialogotp.hide();
                   Fluttertoast.showToast(
+                      gravity: ToastGravity.CENTER,
                       msg: "Something went wrong! please try later",
                       fontSize: 10,
                       backgroundColor: Colors.black);
@@ -606,7 +500,7 @@ class _LoginState extends State<Login> {
   Container onboardingUI(IdTokenResult userIdToken, StateSetter setModalState) {
     return Container(
         height: MediaQuery.of(context).size.height * 0.55,
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.aspectRatio * 600,
         child: ListView(
           children: <Widget>[
             SizedBox(
@@ -717,8 +611,8 @@ class _LoginState extends State<Login> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Container(
-        height: MediaQuery.of(context).size.height * 2,
-        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width * 0.5,
         child: ListView(
           children: <Widget>[
             SizedBox(height: 8),

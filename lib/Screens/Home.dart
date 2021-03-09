@@ -126,8 +126,12 @@ class _HomeState extends State<Home> {
       extendBodyBehindAppBar: true,
       appBar: new AppBarCommon(
         title: Text(
-          "ALL PRODUCTS",
-          style: TextStyle(fontSize: 18),
+          "BRANDED BANIA",
+          style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.pink[900],
+              fontStyle: FontStyle.italic),
         ),
         profileIcon: Icons.search,
         trailingIcon: Icons.filter_alt_outlined,
@@ -137,55 +141,90 @@ class _HomeState extends State<Home> {
         isTabBar: false,
         searchOwner: "ProductSearch",
       ),
-      drawer: Drawer(
-        child: DrawerNav(
-          phoneNo: widget.phone,
-          userName: widget.user,
-          userRole: "User",
-        ),
-      ),
+      drawer: MediaQuery.of(context).size.width > 800.0
+          ? null
+          : Drawer(
+              child: DrawerNav(
+                phoneNo: widget.phone,
+                userName: widget.user,
+                userRole: "User",
+              ),
+            ),
       body: WillPopScope(
           onWillPop: _onBackPressed,
           child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             child: Center(
-              child: productListUI(),
+              child: MediaQuery.of(context).size.width > 800.0
+                  ? Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              color: Colors.white,
+                              width: 250,
+                              height: MediaQuery.of(context).size.height,
+                              child: DrawerNav(
+                                phoneNo: widget.phone,
+                                userName: widget.user,
+                                userRole: "User",
+                              ),
+                            )
+                          ],
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Container(
+                                height: MediaQuery.of(context).size.height,
+                                child: productListUI(),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  : productListUI(),
             ),
           )),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          margin: EdgeInsets.only(left: 12.0, right: 12.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              getIconButton(0, "Home", Icons.home),
-              getIconButton(1, "Orders", Icons.archive),
+      bottomNavigationBar: MediaQuery.of(context).size.width < 800.0
+          ? BottomAppBar(
+              child: Container(
+                margin: EdgeInsets.only(left: 12.0, right: 12.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    getIconButton(0, "Home", Icons.home),
+                    getIconButton(1, "Orders", Icons.archive),
 
-              //getIconButton(1, "Orders", Icons.),
-              // FlatButton(
-              //     onPressed: () {
-              //       updateTabSelection(1, "Orders");
+                    //getIconButton(1, "Orders", Icons.),
+                    // FlatButton(
+                    //     onPressed: () {
+                    //       updateTabSelection(1, "Orders");
 
-              //     },
-              //     child: Text(
-              //       "ORDERS",
-              //       style: TextStyle(
-              //           color: Colors.grey[400],
-              //           fontSize: 17,
-              //           fontWeight: FontWeight.bold),
-              //     )),
+                    //     },
+                    //     child: Text(
+                    //       "ORDERS",
+                    //       style: TextStyle(
+                    //           color: Colors.grey[400],
+                    //           fontSize: 17,
+                    //           fontWeight: FontWeight.bold),
+                    //     )),
 
-              //to leave space in between the bottom app bar items and below the FAB
+                    //to leave space in between the bottom app bar items and below the FAB
 
-              getIconButton(2, "Cart", Icons.shopping_cart)
-            ],
-          ),
-        ),
-        //to add a space between the FAB and BottomAppBar
-        shape: CircularNotchedRectangle(),
-        //color of the BottomAppBar
-        color: Colors.white,
-      ),
+                    getIconButton(2, "Cart", Icons.shopping_cart)
+                  ],
+                ),
+              ),
+              //to add a space between the FAB and BottomAppBar
+              shape: CircularNotchedRectangle(),
+              //color of the BottomAppBar
+              color: Colors.white,
+            )
+          : null,
     );
 
     /// );
@@ -227,13 +266,13 @@ class _HomeState extends State<Home> {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: ((MediaQuery.of(context).size.width >=
                                     450.0) &&
-                                (MediaQuery.of(context).size.width <= 800.0))
+                                (MediaQuery.of(context).size.width <= 900.0))
                             ? 3
-                            : ((MediaQuery.of(context).size.width > 800.0) &&
+                            : ((MediaQuery.of(context).size.width > 900.0) &&
                                     (MediaQuery.of(context).size.width <=
-                                        1100.0))
+                                        1250.0))
                                 ? 4
-                                : (MediaQuery.of(context).size.width > 1100.0)
+                                : (MediaQuery.of(context).size.width > 1250.0)
                                     ? 6
                                     : 2,
                         childAspectRatio: 0.7),

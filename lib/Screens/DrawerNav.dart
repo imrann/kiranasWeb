@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kiranas_web/Screens/Orders.dart';
 import 'package:kiranas_web/SharedPref/UserDetailsSP.dart';
+import 'package:kiranas_web/StateManager/CartState.dart';
+import 'package:provider/provider.dart';
 
 import 'DrawerTiles.dart';
 
@@ -14,6 +17,8 @@ class DrawerNav extends StatefulWidget {
 }
 
 class _DrawerNavState extends State<DrawerNav> {
+  int selectedIndex = 0;
+  String text = "Home";
   @override
   void initState() {
     super.initState();
@@ -38,6 +43,7 @@ class _DrawerNavState extends State<DrawerNav> {
                       padding: const EdgeInsets.only(top: 40, bottom: 5),
                       child: Column(
                         children: <Widget>[
+                          SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -140,6 +146,64 @@ class _DrawerNavState extends State<DrawerNav> {
         //     icon: Icon(Icons.cancel_schedule_send),
         //     title: 'Cancellation/Refund Policies'),
         // Divider(thickness: 0.5, endIndent: 5, color: Colors.grey),
+        MediaQuery.of(context).size.width > 800.0
+            ? Container(
+                margin: EdgeInsets.only(left: 12.0, right: 12.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        getIconButton(0, "Home", Icons.home),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: Text(
+                            "Home",
+                            style: TextStyle(fontSize: 16, color: Colors.grey),
+                          ),
+                        )
+                      ],
+                    ),
+                    Divider(thickness: 0.5, endIndent: 5, color: Colors.grey),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Icon(
+                            Icons.list_sharp,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 6),
+                          child: getIconButton(1, "Orders", Icons.archive),
+                        ),
+                      ],
+                    ),
+                    Divider(thickness: 0.5, endIndent: 5, color: Colors.grey),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        getIconButton(2, "Cart", Icons.shopping_cart),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: Text(
+                            "Cart",
+                            style: TextStyle(fontSize: 16, color: Colors.grey),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ))
+            : SizedBox(height: 0),
+        MediaQuery.of(context).size.width > 800.0
+            ? Divider(thickness: 0.5, endIndent: 5, color: Colors.grey)
+            : SizedBox(
+                height: 0,
+              ),
+
         DrawerTiles(icon: Icon(Icons.exit_to_app), title: 'Logout'),
         Divider(thickness: 0.5, endIndent: 5, color: Colors.grey),
         SizedBox(
@@ -165,5 +229,111 @@ class _DrawerNavState extends State<DrawerNav> {
         )
       ],
     ));
+  }
+
+  void updateTabSelection(int index, String buttonText) {
+    setState(() {
+      selectedIndex = index;
+      text = buttonText;
+    });
+  }
+
+  Widget getIconButton(int sIndex, String pageName, IconData pageIcon) {
+    if (sIndex == 1) {
+      return FlatButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/Orders',
+                arguments: Orders(
+                  initialTabIndex: "0",
+                ));
+            // Navigator.push(
+            //     context,
+            //     SlideRightRoute(
+            //         widget: Orders(
+            //       initialTabIndex: "0",
+            //     )));
+
+            updateTabSelection(0, "Home");
+          },
+          child: Text(
+            "Orders",
+            style: TextStyle(
+              color:
+                  selectedIndex == sIndex ? Colors.pink[900] : Colors.grey[400],
+              fontSize: 16,
+            ),
+          ));
+    } else {
+      return IconButton(
+        //update the bottom app bar view each time an item is clicked
+        onPressed: () {
+          updateTabSelection(sIndex, pageName);
+          switch (pageName) {
+            case "Home":
+              {
+                updateTabSelection(0, "Home");
+              }
+              break;
+
+            case "Cart":
+              {
+                updateTabSelection(0, "Home");
+                //  Navigator.push(context, SlideRightRoute(widget: Cart()));
+                Navigator.pushNamed(context, '/Cart');
+                //   Navigator.push(context, SlideRightRoute(widget: Cart()));
+              }
+              break;
+
+            default:
+              {}
+              break;
+          }
+        },
+        iconSize: 27.0,
+        icon: sIndex == 2
+            ? new Stack(
+                children: <Widget>[
+                  new Icon(
+                    pageIcon,
+                    //darken the icon if it is selected or else give it a different color
+                    color: selectedIndex == sIndex
+                        ? Colors.pink[900]
+                        : Colors.grey[400],
+                  ),
+                  new Positioned(
+                    right: 0,
+                    child: new Container(
+                        padding: EdgeInsets.all(0),
+                        decoration: new BoxDecoration(
+                          color: Colors.pink[900],
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 13,
+                          minHeight: 10,
+                        ),
+                        child: Consumer<CartState>(
+                            builder: (context, data, child) {
+                          return Text(
+                            data.getSalesCountState().toString(),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          );
+                        })),
+                  ),
+                ],
+              )
+            : new Icon(
+                pageIcon,
+                //darken the icon if it is selected or else give it a different color
+                color: selectedIndex == sIndex
+                    ? Colors.pink[900]
+                    : Colors.grey[400],
+              ),
+      );
+    }
   }
 }

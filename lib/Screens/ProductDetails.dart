@@ -115,6 +115,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   });
                                 } else {
                                   Fluttertoast.showToast(
+                                      gravity: ToastGravity.CENTER,
                                       msg: "minimum quantity",
                                       fontSize: 15,
                                       backgroundColor: Colors.black);
@@ -372,7 +373,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
     if (isItemPresentInCart) {
       Fluttertoast.showToast(
-          gravity: ToastGravity.TOP,
+          gravity: ToastGravity.CENTER,
           msg: "Item already added!",
           fontSize: 15,
           backgroundColor: Colors.black);
@@ -380,7 +381,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       bool result = cartState.setSalesCartItems(productDetails, productQty);
       if (result) {
         Fluttertoast.showToast(
-            gravity: ToastGravity.TOP,
+            gravity: ToastGravity.CENTER,
             msg: "Item added to cart",
             fontSize: 15,
             backgroundColor: Colors.black);

@@ -176,7 +176,7 @@ class _ProductFilterState extends State<ProductFilter> {
               msg: productState.getProductListState().length.toString() +
                   " filter result!",
               fontSize: 13,
-              gravity: ToastGravity.BOTTOM,
+              gravity: ToastGravity.CENTER,
               backgroundColor: Colors.black);
         }).catchError((err) {
           progressDialog.hide();

@@ -110,6 +110,7 @@ class _OrderFilterState extends State<OrderFilter> {
                     onPressed: () {
                       clearFilter();
                       Fluttertoast.showToast(
+                          gravity: ToastGravity.CENTER,
                           msg: "Cleared",
                           fontSize: 10,
                           backgroundColor: Colors.black);
@@ -273,6 +274,7 @@ class _OrderFilterState extends State<OrderFilter> {
             }).catchError((err) {
               progressDialog.hide();
               Fluttertoast.showToast(
+                  gravity: ToastGravity.CENTER,
                   msg: "Something went wrong! please try later",
                   fontSize: 10,
                   backgroundColor: Colors.black);
@@ -324,6 +326,7 @@ class _OrderFilterState extends State<OrderFilter> {
             }).catchError((err) {
               progressDialog.hide();
               Fluttertoast.showToast(
+                  gravity: ToastGravity.CENTER,
                   msg: "Something went wrong! please try later",
                   fontSize: 10,
                   backgroundColor: Colors.black);
@@ -373,6 +376,7 @@ class _OrderFilterState extends State<OrderFilter> {
             }).catchError((err) {
               progressDialog.hide();
               Fluttertoast.showToast(
+                  gravity: ToastGravity.CENTER,
                   msg: "Something went wrong! please try later",
                   fontSize: 10,
                   backgroundColor: Colors.black);

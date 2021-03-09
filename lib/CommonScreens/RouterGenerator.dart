@@ -198,6 +198,7 @@ class RouterGenerator {
 
 userLoggedOutToast() {
   Fluttertoast.showToast(
+    gravity: ToastGravity.CENTER,
     msg: "Please login first !",
     fontSize: 20,
     backgroundColor: Colors.black,

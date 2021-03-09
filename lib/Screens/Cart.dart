@@ -412,6 +412,7 @@ class _CartState extends State<Cart> {
                     cartState.getSalesCartItems()[index], index, "sub");
               } else {
                 Fluttertoast.showToast(
+                    gravity: ToastGravity.CENTER,
                     msg: "minimum quantity",
                     fontSize: 15,
                     backgroundColor: Colors.black);
