@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:kiranas_web/CommonScreens/ErrorPage.dart';
 import 'package:kiranas_web/CommonScreens/FancyLoader.dart';

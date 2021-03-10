@@ -370,6 +370,7 @@ class _OrderFilterState extends State<OrderFilter> {
               var ordersListState =
                   Provider.of<OrdersListState>(context, listen: false);
               ordersListState.setOrdersListState(openOrderFiltered);
+              openOrderState.update("isNotifcationCue", (v) => true);
               openOrderdFilterState.setActiveFilter("Date Of Purchase");
               Navigator.of(context).pop();
               progressDialog.hide();

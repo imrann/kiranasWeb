@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kiranas_web/Screens/Orders.dart';
 import 'package:kiranas_web/SharedPref/UserDetailsSP.dart';
 import 'package:kiranas_web/StateManager/CartState.dart';
 import 'package:kiranas_web/StateManager/HomeDynamicPage.dart';

@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kiranas_web/Controllers/OrderController.dart';
 import 'package:kiranas_web/CustomWidgets/LIne.dart';
-import 'package:kiranas_web/Screens/DrawerNav.dart';
 import 'package:kiranas_web/Screens/Home.dart';
 import 'package:kiranas_web/Screens/Orders.dart';
 import 'package:kiranas_web/StateManager/CartState.dart';
@@ -248,6 +247,7 @@ class _PaymentState extends State<Payment> {
                       homeDYnamicPageState.setActiveHomePage("home");
                       SystemNavigator.routeUpdated(
                           routeName: '/Home', previousRouteName: null);
+
                       Navigator.of(context).pop();
                     } else {
                       Navigator.pushNamedAndRemoveUntil(
@@ -277,11 +277,13 @@ class _PaymentState extends State<Payment> {
                     var homeDYnamicPageState =
                         Provider.of<HomeDynamicPageState>(context,
                             listen: false);
+
                     // Navigator.popUntil(context, (route) => route.isFirst);
                     if (MediaQuery.of(context).size.width > 800.0) {
                       homeDYnamicPageState.setActiveHomePage("orders");
                       SystemNavigator.routeUpdated(
                           routeName: '/Orders', previousRouteName: null);
+
                       Navigator.of(context).pop();
                     } else {
                       Navigator.pushNamedAndRemoveUntil(

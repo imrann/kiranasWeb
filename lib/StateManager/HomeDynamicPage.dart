@@ -19,4 +19,6 @@ class HomeDynamicPageState extends ChangeNotifier {
     this.productDetails = productDetails;
     notifyListeners();
   }
+  /////////////////////////////////////
+
 }

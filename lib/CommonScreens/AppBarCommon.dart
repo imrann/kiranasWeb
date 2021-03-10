@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kiranas_web/Controllers/ProductController.dart';
 import 'package:kiranas_web/CustomWidgets/ProductFilter.dart';
@@ -6,6 +7,7 @@ import 'package:kiranas_web/Screens/Cart.dart';
 import 'package:kiranas_web/Screens/Home.dart';
 import 'package:kiranas_web/StateManager/CartState.dart';
 import 'package:kiranas_web/StateManager/FilterListState.dart';
+import 'package:kiranas_web/StateManager/HomeDynamicPage.dart';
 import 'package:kiranas_web/StateManager/ProductListState.dart';
 import 'package:provider/provider.dart';
 
@@ -192,7 +194,17 @@ class _AppBarCommonState extends State<AppBarCommon> {
                 } else if (icon == Icons.filter_alt_outlined) {
                   filter(context, 0.90);
                 } else if (icon == cartIcon) {
-                  Navigator.pushNamed(context, '/Cart', arguments: Cart());
+                  if (MediaQuery.of(context).size.width > 800.0) {
+                    var homeDYnamicPageState =
+                        Provider.of<HomeDynamicPageState>(context,
+                            listen: false);
+                    SystemNavigator.routeUpdated(
+                        routeName: '/Cart', previousRouteName: null);
+                    homeDYnamicPageState.setActiveHomePage("cart");
+                  } else {
+                    Navigator.pushNamed(context, '/Cart', arguments: Cart());
+                  }
+
                   // Navigator.push(
                   //     context,
                   //     SlideRightRoute(
