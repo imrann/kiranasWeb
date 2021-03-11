@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 class FancyLoader extends StatelessWidget {
   FancyLoader({this.loaderType, this.lines});
