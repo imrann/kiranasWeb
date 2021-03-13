@@ -81,27 +81,37 @@ class _SplashState extends State<Splash> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  AnimatedOpacity(
-                    duration: Duration(milliseconds: 700),
-                    opacity: _visible ? 1.0 : 0.0,
-                    child: Text(
-                      'KIRANAS',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: ((MediaQuery.of(context).size.width >=
-                                      450.0) &&
-                                  (MediaQuery.of(context).size.width <= 800.0))
-                              ? 100
-                              : ((MediaQuery.of(context).size.width > 800.0) &&
+                  Flexible(
+                    child: AnimatedOpacity(
+                      duration: Duration(milliseconds: 700),
+                      opacity: _visible ? 1.0 : 0.0,
+                      child: Container(
+                        width: MediaQuery.of(context).size.aspectRatio * 600,
+                        child: Text(
+                          'BRANDED  BANIYA',
+                          overflow: TextOverflow.visible,
+                          softWrap: true,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: ((MediaQuery.of(context).size.width >=
+                                          450.0) &&
                                       (MediaQuery.of(context).size.width <=
-                                          1100.0))
-                                  ? 120
-                                  : (MediaQuery.of(context).size.width > 1100.0)
-                                      ? 140
-                                      : 80,
-                          fontWeight: FontWeight.bold,
-                          wordSpacing: 1,
-                          fontStyle: FontStyle.italic),
+                                          800.0))
+                                  ? 50
+                                  : ((MediaQuery.of(context).size.width >
+                                              800.0) &&
+                                          (MediaQuery.of(context).size.width <=
+                                              1100.0))
+                                      ? 80
+                                      : (MediaQuery.of(context).size.width >
+                                              1100.0)
+                                          ? 110
+                                          : 20,
+                              fontWeight: FontWeight.bold,
+                              wordSpacing: 1,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -113,7 +123,8 @@ class _SplashState extends State<Splash> {
                     duration: Duration(milliseconds: 700),
                     opacity: _visible ? 1.0 : 0.0,
                     child: Text(
-                      'B2B',
+                      '',
+                      maxLines: 2,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: ((MediaQuery.of(context).size.width >=

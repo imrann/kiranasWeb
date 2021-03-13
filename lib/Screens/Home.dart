@@ -138,7 +138,7 @@ class _HomeState extends State<Home> {
         ),
         profileIcon: Icons.search,
         trailingIcon: Icons.filter_alt_outlined,
-        centerTile: false,
+        centerTile: true,
         context: context,
         notificationCount: Text("i"),
         isTabBar: false,
