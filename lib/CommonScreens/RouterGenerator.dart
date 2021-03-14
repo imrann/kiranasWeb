@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,27 +18,6 @@ class RouterGenerator {
     // final args = settings.arguments;
 
     switch (settings.name) {
-      case '/Login':
-        {
-          return MaterialPageRoute(settings: settings, builder: (_) => Login());
-          // MaterialPageRoute<dynamic> pageRoute;
-          // if (!isUserLoggedIn) {
-          //   pageRoute =
-          //       MaterialPageRoute(settings: settings, builder: (_) => Login());
-          // } else {
-          //   pageRoute = MaterialPageRoute(builder: (_) {
-          //     return Scaffold(
-          //       appBar: AppBar(
-          //         title: Text('Already Logged In'),
-          //       ),
-          //       body: Center(
-          //         child: Text('Please Logout first'),
-          //       ),
-          //     );
-          //   });
-          // }
-          // return pageRoute;
-        }
       case '/Home':
         {
           final Home args = settings.arguments;
@@ -61,6 +41,27 @@ class RouterGenerator {
             pageRoute = MaterialPageRoute(builder: (_) => Login());
           }
           return pageRoute;
+        }
+      case '/Login':
+        {
+          return MaterialPageRoute(settings: settings, builder: (_) => Login());
+          // MaterialPageRoute<dynamic> pageRoute;
+          // if (!isUserLoggedIn) {
+          //   pageRoute =
+          //       MaterialPageRoute(settings: settings, builder: (_) => Login());
+          // } else {
+          //   pageRoute = MaterialPageRoute(builder: (_) {
+          //     return Scaffold(
+          //       appBar: AppBar(
+          //         title: Text('Already Logged In'),
+          //       ),
+          //       body: Center(
+          //         child: Text('Please Logout first'),
+          //       ),
+          //     );
+          //   });
+          // }
+          // return pageRoute;
         }
 
       // case '/':

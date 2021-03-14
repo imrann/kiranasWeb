@@ -28,7 +28,7 @@ class _LoginState extends State<Login> {
   String errorText = "";
   bool enableResendButton = false;
   String enteredOtp = '';
-  ProgressDialog progressDialogotp;
+  ProgressDialog progressDialogotpLogin;
 
   var onTapRecognizer;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -50,8 +50,9 @@ class _LoginState extends State<Login> {
           onError: (FirebaseAuthException error) => print(error),
           onExpired: () => print('reCAPTCHA Expired!'),
         ));
-
-    bottomSlider(phoneNumber: _phoneController.text, isOtpSlider: true);
+    progressDialogotpLogin.hide().then((isHidden) {
+      bottomSlider(phoneNumber: _phoneController.text, isOtpSlider: true);
+    });
   }
 
   StreamController<ErrorAnimationType> errorController;
@@ -116,9 +117,9 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    progressDialogotp = new ProgressDialog(context,
+    progressDialogotpLogin = new ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
-    progressDialogotp.style(
+    progressDialogotpLogin.style(
         message: "Please Wait...",
         progressWidget: CircularProgressIndicator(),
         progressWidgetAlignment: Alignment.centerRight,
@@ -300,7 +301,7 @@ class _LoginState extends State<Login> {
   onboardingProceed(
       String userName, IdTokenResult userIdToken, StateSetter setModalState) {
     if (userName.length < 4) {
-      progressDialogotp.hide().then((isHidden) {
+      progressDialogotpLogin.hide().then((isHidden) {
         if (isHidden) {
           setModalState(() {
             hasError = true;
@@ -313,11 +314,11 @@ class _LoginState extends State<Login> {
         hasError = false;
         _autoValidate = false;
       });
-      progressDialogotp.show().then((isShown) {
+      progressDialogotpLogin.show().then((isShown) {
         if (true) {
           LoginController().createUser(userIdToken, userName).then((value) {
             if (value == "true") {
-              progressDialogotp.hide().then((isHidden) {
+              progressDialogotpLogin.hide().then((isHidden) {
                 if (isHidden) {
                   Navigator.of(context).pop();
                   Navigator.pushNamedAndRemoveUntil(
@@ -350,7 +351,7 @@ class _LoginState extends State<Login> {
               Navigator.of(context).pop();
             }
           }).catchError((err) {
-            progressDialogotp.hide();
+            progressDialogotpLogin.hide();
             Fluttertoast.showToast(
                 gravity: ToastGravity.CENTER,
                 msg: "Something went wrong! please try later",
@@ -371,6 +372,7 @@ class _LoginState extends State<Login> {
         hasError1 = true;
         errorText = "Invalid SMS Code";
       });
+      progressDialogotpLogin.hide();
     } else {
       setState(() {
         hasError1 = false;
@@ -378,81 +380,80 @@ class _LoginState extends State<Login> {
       });
 
       final code = _codeController.text.trim();
-      progressDialogotp.show().then((isShown) async {
-        if (true) {
-          await confirmationResult.confirm(code).then((userCredential) {
-            userCredential.user.getIdTokenResult().then((token) {
+
+      await confirmationResult.confirm(code).then((userCredential) {
+        userCredential.user.getIdTokenResult().then((token) {
+          Fluttertoast.showToast(
+              gravity: ToastGravity.CENTER,
+              msg: "Login Successfull",
+              fontSize: 10,
+              backgroundColor: Colors.black);
+
+          if (userCredential.additionalUserInfo.isNewUser) {
+            Navigator.of(context).pop();
+            bottomSlider(isOtpSlider: false, userIdToken: token);
+          } else {
+            LoginController().getUserByID(token).then((value) async {
+              if (value != null) {
+                if (value['userAddress']['address'].toString().isEmpty ||
+                    value['userAddress']['address'].toString() == null ||
+                    value['userAddress']['address'].toString().trim() == "") {
+                  await UserDetailsSP().setIsAddressPresent(false);
+                } else {
+                  await UserDetailsSP().setIsAddressPresent(true);
+                }
+                progressDialogotpLogin.hide().then((isHidden) {
+                  if (isHidden) {
+                    Navigator.of(context).pop();
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/Home', ModalRoute.withName('/Home'),
+                        arguments: Home(
+                          user: value["userName"],
+                          phone: value["userPhone"],
+                          userID: value["userId"],
+                        ));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => Home(
+                    //               user: value["userName"],
+                    //               phone: value["userPhone"],
+                    //               userID: value["userId"],
+                    //             )));
+                    Fluttertoast.showToast(
+                        gravity: ToastGravity.CENTER,
+                        msg: "Welcome Back!",
+                        fontSize: 10,
+                        backgroundColor: Colors.black);
+                  }
+                });
+              } else {
+                progressDialogotpLogin.hide();
+              }
+            }).catchError((err) {
+              progressDialogotpLogin.hide();
               Fluttertoast.showToast(
                   gravity: ToastGravity.CENTER,
-                  msg: "Login Successfull",
+                  msg: "Something went wrong! please try later",
                   fontSize: 10,
                   backgroundColor: Colors.black);
-              Navigator.of(context).pop();
-              if (userCredential.additionalUserInfo.isNewUser) {
-                bottomSlider(isOtpSlider: false, userIdToken: token);
-              } else {
-                LoginController().getUserByID(token).then((value) async {
-                  if (value != null) {
-                    if (value['userAddress']['address'].toString().isEmpty ||
-                        value['userAddress']['address'].toString() == null ||
-                        value['userAddress']['address'].toString().trim() ==
-                            "") {
-                      await UserDetailsSP().setIsAddressPresent(false);
-                    } else {
-                      await UserDetailsSP().setIsAddressPresent(true);
-                    }
-                    progressDialogotp.hide().then((isHidden) {
-                      if (isHidden) {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/Home', ModalRoute.withName('/Home'),
-                            arguments: Home(
-                              user: value["userName"],
-                              phone: value["userPhone"],
-                              userID: value["userId"],
-                            ));
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => Home(
-                        //               user: value["userName"],
-                        //               phone: value["userPhone"],
-                        //               userID: value["userId"],
-                        //             )));
-                        Fluttertoast.showToast(
-                            gravity: ToastGravity.CENTER,
-                            msg: "Welcome Back!",
-                            fontSize: 10,
-                            backgroundColor: Colors.black);
-                      }
-                    });
-                  } else {
-                    progressDialogotp.hide();
-                  }
-                }).catchError((err) {
-                  progressDialogotp.hide();
-                  Fluttertoast.showToast(
-                      gravity: ToastGravity.CENTER,
-                      msg: "Something went wrong! please try later",
-                      fontSize: 10,
-                      backgroundColor: Colors.black);
-                  print(err.toString());
-                });
-              }
+              print(err.toString());
             });
-          }).catchError((err) {
-            print('Caught $err');
-            errorController1.add(
-                ErrorAnimationType.shake); // Triggering error shake animation
+          }
+        });
+      }).catchError((err) {
+        progressDialogotpLogin.hide();
+        print('Caught $err');
+        errorController1
+            .add(ErrorAnimationType.shake); // Triggering error shake animation
 
-            if (err.toString().contains("ERROR_INVALID_VERIFICATION_CODE") ||
-                err
-                    .toString()
-                    .contains("firebase_auth/invalid-verification-code")) {
-              setModalState(() {
-                hasError1 = true;
-                errorText = "Invalid SMS Code";
-              });
-            }
+        if (err.toString().contains("ERROR_INVALID_VERIFICATION_CODE") ||
+            err
+                .toString()
+                .contains("firebase_auth/invalid-verification-code")) {
+          setModalState(() {
+            hasError1 = true;
+            errorText = "Invalid SMS Code";
           });
         }
       });
@@ -478,12 +479,12 @@ class _LoginState extends State<Login> {
         _autoValidate = false;
       });
       String phoneNumber = "+91" + _phoneController.text.trim();
-      progressDialogotp.show().then((isProgressShown) {
+      progressDialogotpLogin.show().then((isProgressShown) {
         if (isProgressShown) {
           print(phoneNumber);
           loginUser(phoneNumber, context);
           // Future.delayed(Duration(seconds: 5), () {
-          //   progressDialogotp.hide().then((isHidden) {
+          //   progressDialogotpLogin.hide().then((isHidden) {
           //     if (isHidden) {
           //       // Navigator.push(context, SlideRightRoute(widget: OtpScreen()));
           //       //otpSlider();
@@ -748,7 +749,11 @@ class _LoginState extends State<Login> {
                 child: FlatButton(
                   color: Colors.pink[900],
                   onPressed: () {
-                    veryfyAndProceed(setModalState);
+                    progressDialogotpLogin.show().then((isSHown) {
+                      if (isSHown) {
+                        veryfyAndProceed(setModalState);
+                      }
+                    });
 
                     // conditions for validating
                   },
