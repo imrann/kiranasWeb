@@ -26,7 +26,8 @@ class AppBarCommon extends StatefulWidget implements PreferredSizeWidget {
       this.notificationCount,
       this.isTabBar,
       this.isSearch,
-      this.searchOwner});
+      this.searchOwner,
+      this.tabController});
 
   final Widget title;
   final Widget subTitle;
@@ -39,6 +40,7 @@ class AppBarCommon extends StatefulWidget implements PreferredSizeWidget {
   final bool isTabBar;
   final bool isSearch;
   final String searchOwner;
+  final TabController tabController;
 
   @override
   _AppBarCommonState createState() => _AppBarCommonState();
@@ -142,6 +144,7 @@ class _AppBarCommonState extends State<AppBarCommon> {
         ],
         indicatorColor: Colors.pink[900],
         indicatorSize: TabBarIndicatorSize.tab,
+        controller: widget.tabController,
       );
     } else {
       return null;

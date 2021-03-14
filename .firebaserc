@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "kiranas-c082f"
+  },
+  "targets": {
+    "kiranas-c082f": {
+      "hosting": {
+        "bb": [
+          "brandedbbaniya"
+        ]
+      }
+    }
   }
 }

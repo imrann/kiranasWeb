@@ -20,6 +20,9 @@ final DateFormat formatDate = new DateFormat("EEE, d/M/y");
 final DateFormat format = new DateFormat.jms();
 
 class OpenOrders extends StatefulWidget {
+  final TabController tabController;
+
+  OpenOrders({this.tabController});
   @override
   _OpenOrdersState createState() => _OpenOrdersState();
 }
@@ -546,6 +549,8 @@ class _OpenOrdersState extends State<OpenOrders> {
                                             listen: false);
                                     ordersListState.setOrdersListState(value);
                                     progressDialog.hide().then((value) {
+                                      widget.tabController.animateTo(
+                                          widget.tabController.index += 2);
                                       Fluttertoast.showToast(
                                           gravity: ToastGravity.CENTER,
                                           msg: "Order Cancelled Successfully!!",
