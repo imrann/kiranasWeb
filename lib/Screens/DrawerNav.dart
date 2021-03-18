@@ -178,7 +178,6 @@ class _DrawerNavState extends State<DrawerNav> {
                         ],
                       ),
                     ),
-                    Divider(thickness: 0.5, endIndent: 5, color: Colors.grey),
                     InkWell(
                       onTap: () {
                         updateTabSelection(1, "Orders");
@@ -212,7 +211,6 @@ class _DrawerNavState extends State<DrawerNav> {
                         ],
                       ),
                     ),
-                    Divider(thickness: 0.5, endIndent: 5, color: Colors.grey),
                     InkWell(
                       onTap: () {
                         updateTabSelection(2, "Cart");
