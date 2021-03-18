@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:kiranas_web/SharedPref/UserDetailsSP.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
-ProgressDialog progressDialogotp;
+ProgressDialog progressDialogLogout;
 
 class DrawerTiles extends StatelessWidget {
   DrawerTiles({this.icon, this.title});
@@ -16,9 +16,9 @@ class DrawerTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    progressDialogotp = new ProgressDialog(context,
+    progressDialogLogout = new ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
-    progressDialogotp.style(
+    progressDialogLogout.style(
         message: "Please Wait...",
         progressWidget: CircularProgressIndicator(),
         progressWidgetAlignment: Alignment.centerRight,
@@ -32,7 +32,7 @@ class DrawerTiles extends StatelessWidget {
         ),
         onTap: () {
           if (title == "Logout") {
-            progressDialogotp.show().then((value) {
+            progressDialogLogout.show().then((value) {
               if (value) {
                 _signOut(context);
               }
@@ -176,7 +176,7 @@ class DrawerTiles extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     await _auth.signOut();
-    progressDialogotp.hide().then((isHidden) {
+    progressDialogLogout.hide().then((isHidden) {
       if (isHidden) {
         UserDetailsSP().logOutUser();
         Navigator.pushNamedAndRemoveUntil(
