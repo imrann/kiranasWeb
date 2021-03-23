@@ -172,7 +172,8 @@ class OProducts {
   String productMrp;
   String productName;
   String productNetWeight;
-  int productOffPercentage;
+  dynamic productOffPercentage;
+  String productOffPrice;
   String productQty;
   String productUnit;
   String productUrl;
@@ -189,6 +190,7 @@ class OProducts {
       this.productName,
       this.productNetWeight,
       this.productOffPercentage,
+      this.productOffPrice,
       this.productQty,
       this.productUnit,
       this.productUrl,
@@ -206,6 +208,7 @@ class OProducts {
       productName: parsedJson['productName'],
       productNetWeight: parsedJson['productNetWeight'],
       productOffPercentage: parsedJson['productOffPercentage'],
+      productOffPrice: parsedJson['productOffPrice'],
       productQty: parsedJson['productQty'],
       productUnit: parsedJson['productUnit'],
       productUrl: parsedJson['productUrl'],
@@ -225,6 +228,8 @@ class OProducts {
     data['productName'] = this.productName;
     data['productNetWeight'] = this.productNetWeight;
     data['productOffPercentage'] = this.productOffPercentage;
+    data['productOffPrice'] = this.productOffPrice;
+
     data['productQty'] = this.productQty;
     data['productUnit'] = this.productUnit;
     data['productUrl'] = this.productUrl;

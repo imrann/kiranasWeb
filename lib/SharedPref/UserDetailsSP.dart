@@ -92,4 +92,17 @@ class UserDetailsSP {
 
     return userD;
   }
+
+  Future<String> getPrevSavedState() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    String orderPageState = preferences.getString("orderPageState");
+    return orderPageState;
+  }
+
+  Future<Map> setPrevSavedState(String orderPageState) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    preferences.setString("orderPageState", orderPageState);
+  }
 }

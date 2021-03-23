@@ -92,6 +92,8 @@ class CartState extends ChangeNotifier {
   bool setSalesCartItems(Product items, int productQtyCount) {
     Map<String, dynamic> salesListMap = new Map<String, dynamic>();
     salesListMap['createDate'] = items.productData.createDate;
+    salesListMap['productOffPrice'] = items.productData.productOffPrice;
+
     salesListMap['productCategory'] = items.productData.productCategory;
     salesListMap['productCp'] = items.productData.productCp;
     salesListMap['updateDate'] = items.productData.updateDate;

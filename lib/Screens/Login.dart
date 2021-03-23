@@ -41,15 +41,18 @@ class _LoginState extends State<Login> {
   Future<bool> loginUser(String phone, BuildContext context) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
 
-    confirmationResult = await _auth.signInWithPhoneNumber(
-        phone,
-        RecaptchaVerifier(
-          size: RecaptchaVerifierSize.compact,
-          theme: RecaptchaVerifierTheme.dark,
-          onSuccess: () => print('reCAPTCHA Completed!'),
-          onError: (FirebaseAuthException error) => print(error),
-          onExpired: () => print('reCAPTCHA Expired!'),
-        ));
+    _auth.setPersistence(Persistence.LOCAL).then((value) async {
+      confirmationResult = await _auth.signInWithPhoneNumber(
+          phone,
+          RecaptchaVerifier(
+            size: RecaptchaVerifierSize.compact,
+            theme: RecaptchaVerifierTheme.dark,
+            onSuccess: () => print('reCAPTCHA Completed!'),
+            onError: (FirebaseAuthException error) => print(error),
+            onExpired: () => print('reCAPTCHA Expired!'),
+          ));
+    });
+
     progressDialogotpLogin.hide().then((isHidden) {
       bottomSlider(phoneNumber: _phoneController.text, isOtpSlider: true);
     });

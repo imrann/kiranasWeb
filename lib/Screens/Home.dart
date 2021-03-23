@@ -149,11 +149,7 @@ class _HomeState extends State<Home> {
       drawer: MediaQuery.of(context).size.width > 800.0
           ? null
           : Drawer(
-              child: DrawerNav(
-                phoneNo: widget.phone,
-                userName: widget.user,
-                userRole: "User",
-              ),
+              child: DrawerNav(),
             ),
       body: WillPopScope(
           onWillPop: _onBackPressed,
@@ -170,11 +166,7 @@ class _HomeState extends State<Home> {
                               color: Colors.white,
                               width: 250,
                               height: MediaQuery.of(context).size.height,
-                              child: DrawerNav(
-                                phoneNo: widget.phone,
-                                userName: widget.user,
-                                userRole: "User",
-                              ),
+                              child: DrawerNav(),
                             )
                           ],
                         ),
@@ -354,16 +346,54 @@ class _HomeState extends State<Home> {
                                     Expanded(
                                       child: Container(
                                         width: double.infinity,
-                                        child: FadeInImage.memoryNetwork(
-                                            fit: BoxFit.fill,
-                                            placeholder: kTransparentImage,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.24,
-                                            image: productList[index]
-                                                .productData
-                                                .productUrl),
+                                        child: Stack(
+                                          children: [
+                                            new FadeInImage.memoryNetwork(
+                                                fit: BoxFit.fill,
+                                                placeholder: kTransparentImage,
+                                                width: double.infinity,
+                                                image: productList[index]
+                                                    .productData
+                                                    .productUrl),
+                                            Positioned(
+                                                top: 5,
+                                                right: 5,
+                                                child: Container(
+                                                  color: Colors.pink[900],
+                                                  child: Text(
+                                                    productList[index]
+                                                            .productData
+                                                            .productNetWeight +
+                                                        "  " +
+                                                        productList[index]
+                                                            .productData
+                                                            .productUnit,
+                                                    style: TextStyle(
+                                                        fontSize: 10,
+                                                        color: Colors.white),
+                                                  ),
+                                                )),
+                                            Positioned(
+                                                top: 20,
+                                                right: 5,
+                                                child: Container(
+                                                  color: Colors.pink[900],
+                                                  child: Text(
+                                                    productList[index]
+                                                            .productData
+                                                            .productOffPercentage
+                                                            .toStringAsFixed(
+                                                                1) +
+                                                        " % off",
+                                                    style: TextStyle(
+                                                        fontSize: 10,
+                                                        fontStyle:
+                                                            FontStyle.italic,
+                                                        color: Colors.white),
+                                                  ),
+                                                )),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -437,19 +467,16 @@ class _HomeState extends State<Home> {
                                               SizedBox(width: 8),
                                               Text(
                                                 "\u20B9" +
-                                                    (int.parse(productList[
+                                                    (double.parse(productList[
                                                                     index]
                                                                 .productData
                                                                 .productMrp) -
-                                                            ((productList[index]
-                                                                        .productData
-                                                                        .productOffPercentage /
-                                                                    100) *
-                                                                int.parse(productList[
+                                                            double.parse(
+                                                                productList[
                                                                         index]
                                                                     .productData
-                                                                    .productMrp)))
-                                                        .toString(),
+                                                                    .productOffPrice))
+                                                        .toStringAsFixed(2),
                                                 style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 13,
@@ -470,11 +497,11 @@ class _HomeState extends State<Home> {
                                               ),
                                               SizedBox(width: 12),
                                               Text(
-                                                productList[index]
+                                                "\u20B9" +
+                                                    productList[index]
                                                         .productData
-                                                        .productOffPercentage
+                                                        .productOffPrice
                                                         .toString() +
-                                                    "%" +
                                                     " off",
                                                 style: TextStyle(
                                                     color: Colors.red,

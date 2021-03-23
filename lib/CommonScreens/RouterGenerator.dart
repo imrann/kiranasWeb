@@ -17,20 +17,30 @@ class RouterGenerator {
     // Getting arguments passed in while calling Navigator.pushNamed
     // final args = settings.arguments;
 
+    // FirebaseAuth auth = FirebaseAuth.instance;
+    // Future<User> user = auth.authStateChanges().first;
+    // if (user == null) {
+    //   print('ooooooouttttttttttttttt!');
+    //   isUserLoggedIn = false;
+    // } else {
+    //   print('iiiiiinnnnnnnnnnnnnn');
+    //   isUserLoggedIn = true;
+    // }
+
     switch (settings.name) {
       case '/Home':
         {
           final Home args = settings.arguments;
           MaterialPageRoute<dynamic> pageRoute;
-
+          print("inside :" + isUserLoggedIn.toString());
           if (isUserLoggedIn && args != null) {
             pageRoute = MaterialPageRoute(
               settings: settings,
               builder: (_) => Home(
-                phone: args.phone,
-                user: args.user,
-                userID: args.userID,
-              ),
+                  // phone: args.phone,
+                  // user: args.user,
+                  // userID: args.userID,
+                  ),
             );
           } else if (isUserLoggedIn && args == null) {
             pageRoute = _unAuthRoute();
@@ -98,7 +108,7 @@ class RouterGenerator {
       case '/Cart':
         MaterialPageRoute<dynamic> pageRoute;
 
-        if (isUserLoggedIn) {
+        if (true) {
           pageRoute = MaterialPageRoute(
             settings: settings,
             builder: (_) => Cart(),

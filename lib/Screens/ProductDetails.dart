@@ -279,9 +279,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                       SizedBox(width: 12),
                       Text(
-                        widget.productDetails.productData.productOffPercentage
+                        "\u20B9" +
+                            widget.productDetails.productData.productOffPrice
                                 .toString() +
-                            "%" +
                             " off",
                         style: TextStyle(
                             color: Colors.red,
@@ -302,14 +302,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                             TextStyle(color: Colors.green[500], fontSize: 25),
                       ),
                       Text(
-                        (int.parse(widget
+                        (double.parse(widget
                                     .productDetails.productData.productMrp) -
-                                ((widget.productDetails.productData
-                                            .productOffPercentage /
-                                        100) *
-                                    int.parse(widget.productDetails.productData
-                                        .productMrp)))
-                            .toString(),
+                                double.parse(widget.productDetails.productData
+                                    .productOffPrice))
+                            .toStringAsFixed(2),
                         style:
                             TextStyle(color: Colors.green[500], fontSize: 50),
                       ),

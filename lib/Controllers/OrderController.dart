@@ -66,6 +66,7 @@ class OrderController {
         productName: cartItems['productName'].toString(),
         productNetWeight: cartItems['productNetWeight'].toString(),
         productOffPercentage: cartItems['productOffPercentage'],
+        productOffPrice: cartItems['productOffPrice'].toString(),
         productQty: cartItems['productQty'].toString(),
         productUnit: cartItems['productUnit'].toString(),
         productUrl: cartItems['productUrl'].toString(),

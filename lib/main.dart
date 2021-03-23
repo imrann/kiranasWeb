@@ -37,15 +37,15 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // transparent status bar
   ));
-  await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   var currentLoggedUser;
-  FirebaseAuth auth = FirebaseAuth.instance;
-  print(auth.currentUser.toString());
 
-  auth.authStateChanges().listen((User user) {
+  auth.authStateChanges().listen((User user) async {
+    await Future.delayed(Duration(seconds: 3));
     if (user == null) {
       print('User is currently signed out!');
+
       currentLoggedUser = null;
       isUserLoggedIn = false;
     } else {
@@ -56,11 +56,9 @@ Future<void> main() async {
   });
 
   UserDetailsSP().getUserDetails().then((value) {
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 10), () {
       if (currentLoggedUser != null) {
         currentLoggedUser.getIdToken().then((token) {
-          print(token.toString());
-
           runApp(MyApp("HomePage", value["userName"], value["userPhone"],
               value["userId"]));
         });
@@ -123,124 +121,6 @@ class MyApp extends StatelessWidget {
             primarySwatch: colorCustom,
             accentColor: colorCustom1,
           ),
-          // routes: {
-          //   '/Home': (context) {
-          //     final Home args = ModalRoute.of(context).settings.arguments;
-          //     print("USERLOGGED H :" + isUserLoggedIn.toString());
-
-          //     if (isUserLoggedIn && args != null) {
-          //       return Home(
-          //         phone: args.phone,
-          //         user: args.user,
-          //         userID: args.userID,
-          //       );
-          //     } else if (isUserLoggedIn && args == null) {
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Unauthorize', previousRouteName: null);
-          //       return Unauthorize();
-          //     } else {
-          //       userLoggedOutToast();
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Login', previousRouteName: null);
-          //       return Login();
-          //     }
-          //   },
-          //   '/Orders': (context) {
-          //     print("USERLOGGED O:" + isUserLoggedIn.toString());
-          //     final Orders args = ModalRoute.of(context).settings.arguments;
-          //     if (isUserLoggedIn && args != null) {
-          //       return Orders(initialTabIndex: args.initialTabIndex);
-          //     } else if (isUserLoggedIn && args == null) {
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Unauthorize', previousRouteName: null);
-          //       return Unauthorize();
-          //     } else {
-          //       userLoggedOutToast();
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Login', previousRouteName: null);
-          //       return Login();
-          //     }
-          //   },
-          //   '/Login': (context) {
-          //     final Login args = ModalRoute.of(context).settings.arguments;
-          //     if (isUserLoggedIn && args != null) {
-          //       return Login();
-          //     } else if (isUserLoggedIn && args == null) {
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Unauthorize', previousRouteName: null);
-          //       return Unauthorize();
-          //     } else {
-          //       userLoggedOutToast();
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Login', previousRouteName: null);
-          //       return Login();
-          //     }
-          //   },
-          //   //'/Orders': (context) => Orders(),
-          //   '/Cart': (context) {
-          //     if (isUserLoggedIn) {
-          //       return Cart();
-          //     } else {
-          //       userLoggedOutToast();
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Login', previousRouteName: null);
-          //       return Login();
-          //     }
-          //   },
-          //   '/Unauthorize': (context) {
-          //     if (isUserLoggedIn) {
-          //       return Unauthorize();
-          //     } else {
-          //       userLoggedOutToast();
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Login', previousRouteName: null);
-          //       return Login();
-          //     }
-          //   },
-          //   '/Maintainance': (context) {
-          //     if (isUserLoggedIn) {
-          //       return Maintainance();
-          //     } else {
-          //       userLoggedOutToast();
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Login', previousRouteName: null);
-          //       return Login();
-          //     }
-          //   },
-          //   '/CheckOut': (context) {
-          //     if (isUserLoggedIn) {
-          //       return CheckOut();
-          //     } else {
-          //       userLoggedOutToast();
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Login', previousRouteName: null);
-          //       return Login();
-          //     }
-          //   },
-          //   //'/ProductDetails': (context) => ProductDetails(),
-          //   '/ProductDetails': (context) {
-          //     final ProductDetails args =
-          //         ModalRoute.of(context).settings.arguments;
-          //     if (isUserLoggedIn && args != null) {
-          //       return ProductDetails(
-          //         heroIndex: args.heroIndex,
-          //         productDetails: args.productDetails,
-          //       );
-          //     } else if (isUserLoggedIn && args == null) {
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Unauthorize', previousRouteName: null);
-          //       return Unauthorize();
-          //     } else {
-          //       userLoggedOutToast();
-          //       SystemNavigator.routeUpdated(
-          //           routeName: '/Login', previousRouteName: null);
-          //       return Login();
-          //     }
-          //   }
-
-          //   //  heroIndex: args.heroIndex, productDetails: args.productDetails
-          // },
-
           home: _getStartupScreens(redirect, context),
         ));
   }

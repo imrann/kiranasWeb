@@ -123,6 +123,8 @@ class _DrawerNavState extends State<DrawerNav> {
             },
           ),
         ),
+        DrawerTiles(icon: Icon(Icons.upload_sharp), title: 'set prefs'),
+        DrawerTiles(icon: Icon(Icons.download_sharp), title: 'get prefs'),
         // DrawerTiles(icon: Icon(Icons.payment), title: 'Payent Details'),
         // Divider(thickness: 0.5, endIndent: 5, color: Colors.grey),
         // DrawerTiles(icon: Icon(Icons.people), title: 'About Us'),

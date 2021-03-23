@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kiranas_web/Policies/Policies.dart';
 
@@ -5,6 +7,7 @@ import 'package:kiranas_web/Policies/Policies.dart';
 import 'package:flutter/material.dart';
 import 'package:kiranas_web/SharedPref/UserDetailsSP.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 ProgressDialog progressDialogLogout;
 
@@ -30,7 +33,7 @@ class DrawerTiles extends StatelessWidget {
           title,
           style: TextStyle(color: Colors.grey),
         ),
-        onTap: () {
+        onTap: () async {
           if (title == "Logout") {
             progressDialogLogout.show().then((value) {
               if (value) {
@@ -142,7 +145,7 @@ class DrawerTiles extends StatelessWidget {
                       child: Table(
                         children: [
                           TableRow(children: [
-                            Text("Itfan Kargathra"),
+                            Text("Irfan Kargathra"),
                             Text("1234567890")
                           ]),
                         ],
@@ -169,6 +172,17 @@ class DrawerTiles extends StatelessWidget {
           } else if (title == 'Cancellation/Refund Policies') {
             Navigator.of(context).pop();
             _showPolicies("Refund", context);
+          } else if (title == 'set prefs') {
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
+
+            preferences.setString("deviceToken", "hello shared pref");
+          } else if (title == 'get prefs') {
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
+
+            String token = preferences.getString("deviceToken");
+            window.alert(token);
           }
         });
   }

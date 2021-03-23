@@ -193,16 +193,10 @@ class _CartState extends State<Cart> {
                                     ),
                                     leading: CircleAvatar(
                                       radius: 20,
-                                      backgroundColor: Colors.green,
-                                      child: ClipOval(
-                                        clipper: MyClipper(),
-                                        child: FadeInImage.memoryNetwork(
-                                          placeholder: kTransparentImage,
-                                          image: cartState
-                                                  .getSalesCartItems()[index]
-                                              ['productUrl'],
-                                        ),
-                                      ),
+                                      backgroundColor: Colors.transparent,
+                                      backgroundImage: NetworkImage(
+                                          cartState.getSalesCartItems()[index]
+                                              ['productUrl']),
                                     ),
                                     subtitle: Column(
                                       children: [
@@ -236,12 +230,12 @@ class _CartState extends State<Cart> {
                                             ),
                                             SizedBox(width: 12),
                                             Text(
-                                              cartState
+                                              "\u20B9" +
+                                                  cartState
                                                       .getSalesCartItems()[
-                                                          index][
-                                                          'productOffPercentage']
+                                                          index]
+                                                          ['productOffPrice']
                                                       .toString() +
-                                                  "%" +
                                                   " off",
                                               style: TextStyle(
                                                   color: Colors.red,
@@ -480,7 +474,7 @@ class _CartState extends State<Cart> {
 class MyClipper extends CustomClipper<Rect> {
   @override
   Rect getClip(Size size) {
-    return Rect.fromLTWH(0, 0, 40, 40);
+    return Rect.largest;
   }
 
   @override
