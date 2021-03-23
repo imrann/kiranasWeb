@@ -108,6 +108,7 @@ class _SplashState extends State<Splash> {
                                           ? 110
                                           : 20,
                               fontWeight: FontWeight.bold,
+                              color: Colors.pink[900],
                               wordSpacing: 1,
                               fontStyle: FontStyle.italic),
                         ),
@@ -123,7 +124,7 @@ class _SplashState extends State<Splash> {
                     duration: Duration(milliseconds: 700),
                     opacity: _visible ? 1.0 : 0.0,
                     child: Text(
-                      '',
+                      'Everything below MRP',
                       maxLines: 2,
                       textAlign: TextAlign.center,
                       style: TextStyle(
