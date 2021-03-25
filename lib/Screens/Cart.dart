@@ -76,57 +76,87 @@ class _CartState extends State<Cart> {
   }
 
   getBottomCartSubmitButton(CartState cartState) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0),
-          child: Text(
-            "\u20B9 " + cartState.getGrandTotal.toString(),
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 18),
-          ),
-        ),
-        ButtonTheme(
-          minWidth: MediaQuery.of(context).size.width * 0.6,
-          height: 45,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: RaisedButton(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              splashColor: Colors.white,
-              onPressed: cartState.getGrandTotal <= 0
-                  ? null
-                  : () {
-                      if (MediaQuery.of(context).size.width > 800) {
-                        var homeDYnamicPageState =
-                            Provider.of<HomeDynamicPageState>(context,
-                                listen: false);
-                        homeDYnamicPageState.setActiveHomePage("checkout");
-                        SystemNavigator.routeUpdated(
-                            routeName: '/CheckOut', previousRouteName: null);
-                      } else {
-                        Navigator.pushNamed(context, '/CheckOut');
-                      }
-
-                      // Navigator.push(
-                      //     context,
-                      //     SlideRightRoute(
-                      //         widget: CheckOut(), slideAction: "horizontal"));
-                    },
-              color: Colors.pink[900],
-              child: Text("PROCEED",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+    String shortAmtForOrderTotal = (cartState.getGrandTotal < 300)
+        ? (300 - cartState.getGrandTotal).toStringAsFixed(1)
+        : "0";
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.1,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Visibility(
+            visible: cartState.getGrandTotal < 300,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "please add  " +
+                      "\u20B9" +
+                      shortAmtForOrderTotal +
+                      "  more to order",
+                  style: TextStyle(fontSize: 12, color: Colors.red[900]),
+                ),
+              ],
             ),
           ),
-        ),
-      ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  "\u20B9 " + cartState.getGrandTotal.toString(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: 18),
+                ),
+              ),
+              ButtonTheme(
+                minWidth: MediaQuery.of(context).size.width * 0.6,
+                height: 45,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: RaisedButton(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    splashColor: Colors.white,
+                    onPressed: cartState.getGrandTotal <= 300
+                        ? null
+                        : () {
+                            if (MediaQuery.of(context).size.width > 800) {
+                              var homeDYnamicPageState =
+                                  Provider.of<HomeDynamicPageState>(context,
+                                      listen: false);
+                              homeDYnamicPageState
+                                  .setActiveHomePage("checkout");
+                              SystemNavigator.routeUpdated(
+                                  routeName: '/CheckOut',
+                                  previousRouteName: null);
+                            } else {
+                              Navigator.pushNamed(context, '/CheckOut');
+                            }
+
+                            // Navigator.push(
+                            //     context,
+                            //     SlideRightRoute(
+                            //         widget: CheckOut(), slideAction: "horizontal"));
+                          },
+                    color: Colors.pink[900],
+                    child: Text("PROCEED",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -163,15 +193,28 @@ class _CartState extends State<Cart> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                                cartState
-                                                    .getSalesCartItems()[index]
-                                                        ['productName']
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
+                                            Flexible(
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.7,
+                                                child: Text(
+                                                    cartState
+                                                        .getSalesCartItems()[
+                                                            index]
+                                                            ['productName']
+                                                        .toString(),
+                                                    overflow:
+                                                        TextOverflow.visible,
+                                                    softWrap: true,
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ),
+                                            ),
                                             Text(
                                                 cartState
                                                         .getSalesCartItems()[
@@ -333,7 +376,8 @@ class _CartState extends State<Cart> {
     return Container(
       color: Colors.grey[100],
       child: Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding: const EdgeInsets.only(
+            top: 30.0, left: 30.0, right: 30.0, bottom: 10),
         child: Column(
           children: [
             Row(
@@ -382,16 +426,30 @@ class _CartState extends State<Cart> {
                 Divider(thickness: 0.5, endIndent: 5, color: Colors.red),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Grand Total",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text(
+                      "\u20B9 " +
+                          cartState.getGrandTotal.toStringAsFixed(2).toString(),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
+                ],
+              ),
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Grand Total",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                Text(
-                    "\u20B9 " +
-                        cartState.getGrandTotal.toStringAsFixed(2).toString(),
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
+                Text("*minimum cart value must be  " + "\u20B9" + "300",
+                    style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red[200])),
               ],
             ),
           ],

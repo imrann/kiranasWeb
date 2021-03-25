@@ -29,10 +29,11 @@ class DrawerTiles extends StatelessWidget {
 
     return ListTile(
         leading: icon,
-        title: Text(
-          title,
-          style: TextStyle(color: Colors.grey),
-        ),
+        title: Text(title,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 16,
+            )),
         onTap: () async {
           if (title == "Logout") {
             progressDialogLogout.show().then((value) {
@@ -80,7 +81,7 @@ class DrawerTiles extends StatelessWidget {
                   );
                 });
           } else if (title == "About Us") {
-            Navigator.of(context).pop();
+            // Navigator.of(context).pop();
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -109,7 +110,7 @@ class DrawerTiles extends StatelessWidget {
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.65,
                                 child: SelectableText(
-                                  "Made with :) by pointzeroonetech",
+                                  "Made with :) by immo",
                                   style: TextStyle(fontSize: 10),
                                 ),
                               )
@@ -120,7 +121,10 @@ class DrawerTiles extends StatelessWidget {
                     ),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text('OK'),
+                        child: Text(
+                          'OK',
+                          style: TextStyle(color: Colors.pink[900]),
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -131,7 +135,6 @@ class DrawerTiles extends StatelessWidget {
             // Navigator.push(context,
             //     MaterialPageRoute(builder: (context) => WebViewContainer()));
           } else if (title == "Contact Us") {
-            Navigator.of(context).pop();
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -145,15 +148,38 @@ class DrawerTiles extends StatelessWidget {
                       child: Table(
                         children: [
                           TableRow(children: [
-                            Text("Irfan Kargathra"),
-                            Text("1234567890")
+                            Text(
+                              "@Branded Baniya",
+                              textAlign: TextAlign.center,
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Text(
+                              "",
+                              textAlign: TextAlign.center,
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Text(
+                              "+91-8976399881",
+                              textAlign: TextAlign.center,
+                            )
+                          ]),
+                          TableRow(children: [
+                            Text(
+                              "+91-8369275230",
+                              textAlign: TextAlign.center,
+                            ),
                           ]),
                         ],
                       ),
                     ),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text('OK'),
+                        child: Text(
+                          'OK',
+                          style: TextStyle(color: Colors.pink[900]),
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -164,25 +190,14 @@ class DrawerTiles extends StatelessWidget {
             // Navigator.push(context,
             //     MaterialPageRoute(builder: (context) => WebViewContainer()));
           } else if (title == 'Privacy Policy') {
-            Navigator.of(context).pop();
+            // Navigator.of(context).pop();
             _showPolicies("privacy", context);
           } else if (title == 'Terms & Conditions') {
-            Navigator.of(context).pop();
+            //  Navigator.of(context).pop();
             _showPolicies("Terms", context);
           } else if (title == 'Cancellation/Refund Policies') {
-            Navigator.of(context).pop();
+            // Navigator.of(context).pop();
             _showPolicies("Refund", context);
-          } else if (title == 'set prefs') {
-            SharedPreferences preferences =
-                await SharedPreferences.getInstance();
-
-            preferences.setString("deviceToken", "hello shared pref");
-          } else if (title == 'get prefs') {
-            SharedPreferences preferences =
-                await SharedPreferences.getInstance();
-
-            String token = preferences.getString("deviceToken");
-            window.alert(token);
           }
         });
   }

@@ -250,14 +250,16 @@ class _ProductDetailsState extends State<ProductDetails> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        widget.productDetails.productData.productBrand,
-                        style: TextStyle(color: Colors.grey),
-                      )
-                    ],
-                  ),
+                  widget.productDetails.productData.productBrand.trim() == ""
+                      ? SizedBox(width: 0)
+                      : Row(
+                          children: [
+                            Text(
+                              widget.productDetails.productData.productBrand,
+                              style: TextStyle(color: Colors.grey),
+                            )
+                          ],
+                        ),
                   Row(
                     children: [
                       Text(
@@ -270,22 +272,35 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                   Row(
                     children: [
+                      SizedBox(width: 8),
                       Text(
-                        "\u20B9" + widget.productDetails.productData.productMrp,
+                        "MRP : ",
+                        style: TextStyle(color: Colors.black, fontSize: 14),
+                      ),
+                      Text(
+                        "\u20B9 " +
+                            widget.productDetails.productData.productMrp,
                         style: TextStyle(
-                            color: Colors.grey,
+                            color: Colors.black,
                             decoration: TextDecoration.lineThrough,
-                            fontSize: 15),
+                            fontSize: 14),
                       ),
                       SizedBox(width: 12),
+                    ],
+                  ),
+                  SizedBox(height: 3),
+                  Row(
+                    children: [
+                      SizedBox(width: 8),
                       Text(
-                        "\u20B9" +
+                        "Discount : "
+                                "\u20B9 " +
                             widget.productDetails.productData.productOffPrice
                                 .toString() +
                             " off",
                         style: TextStyle(
                             color: Colors.red,
-                            fontSize: 15,
+                            fontSize: 12,
                             fontStyle: FontStyle.italic),
                       ),
                     ],
@@ -293,7 +308,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ],
               ),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text("Final Price :",
+                          style:
+                              TextStyle(color: Colors.green[500], fontSize: 10))
+                    ],
+                  ),
                   Row(
                     children: [
                       Text(

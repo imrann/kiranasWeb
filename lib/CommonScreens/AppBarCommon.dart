@@ -5,6 +5,7 @@ import 'package:kiranas_web/Controllers/ProductController.dart';
 import 'package:kiranas_web/CustomWidgets/ProductFilter.dart';
 import 'package:kiranas_web/Screens/Cart.dart';
 import 'package:kiranas_web/Screens/Home.dart';
+import 'package:kiranas_web/Screens/ProductDetails.dart';
 import 'package:kiranas_web/StateManager/CartState.dart';
 import 'package:kiranas_web/StateManager/FilterListState.dart';
 import 'package:kiranas_web/StateManager/HomeDynamicPage.dart';
@@ -189,6 +190,7 @@ class _AppBarCommonState extends State<AppBarCommon> {
                   var cartState =
                       Provider.of<CartState>(context, listen: false);
                   cartState.clearSalesCartItems();
+                  isItemPresentInCart = false;
                   Fluttertoast.showToast(
                       gravity: ToastGravity.CENTER,
                       msg: "Cart cleared!",
