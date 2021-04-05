@@ -252,10 +252,7 @@ class _PaymentState extends State<Payment> {
                     } else {
                       Navigator.pushNamedAndRemoveUntil(
                           context, '/Home', ModalRoute.withName('/Home'),
-                          arguments: Home(
-                            user: "",
-                            phone: "",
-                          ));
+                          arguments: Home());
                     }
 
                     // Navigator.pushReplacement(

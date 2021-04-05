@@ -76,8 +76,8 @@ class _CartState extends State<Cart> {
   }
 
   getBottomCartSubmitButton(CartState cartState) {
-    String shortAmtForOrderTotal = (cartState.getGrandTotal < 300)
-        ? (300 - cartState.getGrandTotal).toStringAsFixed(1)
+    String shortAmtForOrderTotal = (cartState.getGrandTotal < 500)
+        ? (500 - cartState.getGrandTotal).toStringAsFixed(1)
         : "0";
     return Container(
       height: MediaQuery.of(context).size.height * 0.1,
@@ -85,7 +85,7 @@ class _CartState extends State<Cart> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Visibility(
-            visible: cartState.getGrandTotal < 300,
+            visible: cartState.getGrandTotal < 500,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -123,7 +123,7 @@ class _CartState extends State<Cart> {
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                     splashColor: Colors.white,
-                    onPressed: cartState.getGrandTotal <= 300
+                    onPressed: cartState.getGrandTotal <= 500
                         ? null
                         : () {
                             if (MediaQuery.of(context).size.width > 800) {
@@ -445,7 +445,7 @@ class _CartState extends State<Cart> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("*minimum cart value must be  " + "\u20B9" + "300",
+                Text("*minimum cart value must be  " + "\u20B9" + "500",
                     style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,

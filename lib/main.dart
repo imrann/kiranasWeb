@@ -37,12 +37,12 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // transparent status bar
   ));
+
   FirebaseAuth auth = FirebaseAuth.instance;
 
   var currentLoggedUser;
 
   auth.authStateChanges().listen((User user) async {
-    await Future.delayed(Duration(seconds: 3));
     if (user == null) {
       print('User is currently signed out!');
 
@@ -55,8 +55,10 @@ Future<void> main() async {
     }
   });
 
+  await Future.delayed(Duration(seconds: 3), () {});
+
   UserDetailsSP().getUserDetails().then((value) {
-    Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(Duration(seconds: 0), () {
       if (currentLoggedUser != null) {
         currentLoggedUser.getIdToken().then((token) {
           runApp(MyApp("HomePage", value["userName"], value["userPhone"],
@@ -140,11 +142,7 @@ class MyApp extends StatelessWidget {
     if (redirectPage == "LoginPage") {
       return Login();
     } else if (redirectPage == "HomePage") {
-      return Home(
-        user: userName.toString(),
-        phone: phone.toString(),
-        userID: userID.toString(),
-      );
+      return Home();
     } else if (redirectPage == "SplashScreen") {
       return Splash();
     }

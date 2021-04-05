@@ -27,11 +27,6 @@ Future<dynamic> productList;
 Future<String> image;
 
 class Home extends StatefulWidget {
-  final String user;
-  final String phone;
-  final String userID;
-  Home({this.user, this.phone, this.userID});
-
   @override
   _HomeState createState() => _HomeState();
 }
@@ -349,7 +344,7 @@ class _HomeState extends State<Home> {
                                         child: Stack(
                                           children: [
                                             new FadeInImage.memoryNetwork(
-                                                fit: BoxFit.fill,
+                                                fit: BoxFit.contain,
                                                 placeholder: kTransparentImage,
                                                 width: double.infinity,
                                                 image: productList[index]

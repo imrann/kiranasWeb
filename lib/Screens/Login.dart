@@ -326,10 +326,7 @@ class _LoginState extends State<Login> {
                   Navigator.of(context).pop();
                   Navigator.pushNamedAndRemoveUntil(
                       context, '/Home', ModalRoute.withName('/Home'),
-                      arguments: Home(
-                        user: _userNameController.text,
-                        phone: "+91" + _phoneController.text,
-                      ));
+                      arguments: Home());
                   // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(
@@ -410,11 +407,7 @@ class _LoginState extends State<Login> {
                     Navigator.of(context).pop();
                     Navigator.pushNamedAndRemoveUntil(
                         context, '/Home', ModalRoute.withName('/Home'),
-                        arguments: Home(
-                          user: value["userName"],
-                          phone: value["userPhone"],
-                          userID: value["userId"],
-                        ));
+                        arguments: Home());
                     // Navigator.push(
                     //     context,
                     //     MaterialPageRoute(
@@ -548,7 +541,7 @@ class _LoginState extends State<Login> {
                 child: TextFormField(
                   key: _formKey,
                   inputFormatters: [
-                    new LengthLimitingTextInputFormatter(10),
+                    new LengthLimitingTextInputFormatter(50),
                   ],
 
                   autofocus: false,

@@ -8,11 +8,6 @@ import 'package:provider/provider.dart';
 import 'DrawerTiles.dart';
 
 class DrawerNav extends StatefulWidget {
-  final String userName;
-  final String phoneNo;
-  final String userRole;
-  DrawerNav({this.userName, this.phoneNo, this.userRole});
-
   @override
   _DrawerNavState createState() => _DrawerNavState();
 }

@@ -32,8 +32,7 @@ class RouterGenerator {
         {
           final Home args = settings.arguments;
           MaterialPageRoute<dynamic> pageRoute;
-          print("inside :" + isUserLoggedIn.toString());
-          if (isUserLoggedIn && args != null) {
+          if (isUserLoggedIn) {
             pageRoute = MaterialPageRoute(
               settings: settings,
               builder: (_) => Home(
@@ -42,8 +41,6 @@ class RouterGenerator {
                   // userID: args.userID,
                   ),
             );
-          } else if (isUserLoggedIn && args == null) {
-            pageRoute = _unAuthRoute();
           } else {
             userLoggedOutToast();
             SystemNavigator.routeUpdated(
@@ -90,13 +87,11 @@ class RouterGenerator {
           print(args.toString());
           MaterialPageRoute<dynamic> pageRoute;
 
-          if (isUserLoggedIn && args != null) {
+          if (isUserLoggedIn) {
             pageRoute = MaterialPageRoute(
               settings: settings,
-              builder: (_) => Orders(initialTabIndex: args.initialTabIndex),
+              builder: (_) => Orders(initialTabIndex: "0"),
             );
-          } else if (isUserLoggedIn && args == null) {
-            pageRoute = _unAuthRoute();
           } else {
             userLoggedOutToast();
             SystemNavigator.routeUpdated(
@@ -108,7 +103,7 @@ class RouterGenerator {
       case '/Cart':
         MaterialPageRoute<dynamic> pageRoute;
 
-        if (true) {
+        if (isUserLoggedIn) {
           pageRoute = MaterialPageRoute(
             settings: settings,
             builder: (_) => Cart(),
